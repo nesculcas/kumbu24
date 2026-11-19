@@ -1,0 +1,1210 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kumbu24</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Figtree:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  /* Layout: sticky header with a samakaka pano band and three audience tabs. Each tab: thesis hero, benefit grid, one live simulation, evidence. The pano is the one bold flourish; the rest stays quiet. */
+  --red:#C8102E; --red-deep:#A10D25; --red-soft:#FBE8EB;
+  --yellow:#FFC72C; --yellow-deep:#D99A00; --yellow-soft:#FFF4D1;
+  --blue:#1C5DB8; --blue-deep:#123F80; --blue-soft:#E7EFFA;
+  --green:#1E8449; --green-soft:#E3F3E9;
+  --black:#16120E;
+  --paper:#FFFCF6; --card:#FFFFFF; --ink:#16120E; --muted:#5E5549; --line:#EBE3D5; --line-strong:#D9CDB8;
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r-m:14px; --r-l:22px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:150px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--f-body)}
+img,svg{max-width:100%}
+[hidden]{display:none!important}
+a{color:inherit}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+.wrap{max-width:1180px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.pano{height:14px;background-color:var(--black);background-repeat:repeat-x;background-size:48px 14px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='14' viewBox='0 0 48 14'%3E%3Crect width='48' height='14' fill='%2316120E'/%3E%3Cpath d='M0 14 12 3 24 14z M24 14 36 3 48 14z' fill='%23C8102E'/%3E%3Cpath d='M12 0 24 11 36 0z M-12 0 0 11 12 0z M36 0 48 11 60 0z' fill='%23FFC72C'/%3E%3Ccircle cx='24' cy='12' r='1.4' fill='%23FFFCF6'/%3E%3Ccircle cx='0' cy='12' r='1.4' fill='%23FFFCF6'/%3E%3Ccircle cx='48' cy='12' r='1.4' fill='%23FFFCF6'/%3E%3C/svg%3E")}
+
+/* Header and tabs */
+.top{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid var(--line)}
+.top-row{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;padding-block:12px 6px;flex-wrap:wrap}
+.logo{display:inline-flex;align-items:center;gap:5px;text-decoration:none;font:800 26px/1 var(--f-display);letter-spacing:-.04em;color:var(--ink)}
+.logo-24{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--yellow);color:var(--black);font-size:16px;letter-spacing:-.03em;box-shadow:inset 0 0 0 3px var(--black)}
+.concept{font:500 11.5px/1.35 var(--f-mono);letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+[role="tab"]{appearance:none;border:0;background:none;cursor:pointer;padding:8px 14px 10px;color:var(--muted);border-bottom:4px solid transparent;white-space:nowrap;display:flex;flex-direction:column;align-items:flex-start;gap:1px;font:700 15px/1.2 var(--f-body)}
+[role="tab"] small{font:500 11px/1.2 var(--f-mono);letter-spacing:.03em;color:var(--muted)}
+[role="tab"][aria-selected="true"]{color:var(--ink);border-bottom-color:var(--tab-accent)}
+#t-cliente{--tab-accent:var(--red)} #t-banco{--tab-accent:var(--blue)} #t-governo{--tab-accent:var(--yellow-deep)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+
+/* Panels */
+#tab-cliente{--acc:var(--red);--acc-soft:var(--red-soft)}
+#tab-banco{--acc:var(--blue);--acc-soft:var(--blue-soft)}
+#tab-governo{--acc:var(--black);--acc-soft:var(--yellow-soft)}
+.h-hero{font:800 clamp(2rem,4.6vw,3.4rem)/1.05 var(--f-display);letter-spacing:-.035em}
+.h-sec{font:700 clamp(1.4rem,2.7vw,2.05rem)/1.15 var(--f-display);letter-spacing:-.025em}
+.h-card{font:700 17px/1.3 var(--f-body)}
+.eyebrow{font:600 12px/1.2 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
+#tab-governo .eyebrow{color:var(--red)}
+.lead{font-size:clamp(1.02rem,1.5vw,1.13rem);color:var(--muted);max-width:62ch}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.num{font-variant-numeric:tabular-nums}
+.green{color:var(--green)}
+.block{padding-block:56px;border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:10px;margin-bottom:28px;max-width:780px}
+.note{font-size:13.5px;color:var(--muted);margin-top:14px;max-width:90ch}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center;padding-block:44px 56px}
+.hero-copy{display:grid;gap:18px;min-width:0}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line-strong);font:600 13.5px/1.2 var(--f-body)}
+.pill .i{width:16px;height:16px;color:var(--acc)}
+#tab-governo .pill .i{color:var(--red)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{appearance:none;border:2px solid var(--black);background:var(--black);color:#fff;font:700 14.5px/1 var(--f-body);padding:12px 16px;border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.red{background:var(--red);border-color:var(--red)}
+.btn.blue{background:var(--blue);border-color:var(--blue)}
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:32px;padding-block:32px 44px}}
+
+/* Ticket */
+.ticket{position:relative;background:var(--card);border-radius:var(--r-l);border:2px solid var(--black);box-shadow:8px 8px 0 var(--black);overflow:hidden;max-width:420px;width:100%;justify-self:center}
+.ticket-body{padding:22px 24px 24px;display:grid;gap:14px}
+.ticket-k{font:600 12px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ticket-amt{font:800 clamp(2.1rem,5vw,2.9rem)/1 var(--f-display);letter-spacing:-.04em}
+.ticket-rows{display:grid;gap:8px;border-top:2px dashed var(--line-strong);padding-top:14px}
+.ticket-rows div{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.ticket-rows span{color:var(--muted)}
+.ticket-rows b{font-variant-numeric:tabular-nums}
+.stamp{position:absolute;right:20px;top:40px;transform:rotate(-12deg);border:3px solid var(--red);color:var(--red);font:800 18px/1 var(--f-display);padding:8px 12px 6px;border-radius:10px;text-align:center;background:rgba(255,255,255,.75)}
+.stamp small{display:block;font:600 11px var(--f-mono);letter-spacing:.08em;margin-top:3px}
+.lvl{display:grid;gap:6px}
+.lvl-top{display:flex;justify-content:space-between;gap:8px;font-size:13.5px;font-weight:600;flex-wrap:wrap}
+.lvl-top span:last-child{color:var(--muted);font-weight:500}
+.lvl-bar{height:10px;border-radius:999px;background:var(--yellow-soft);overflow:hidden;border:1px solid var(--line-strong)}
+.lvl-bar i{display:block;height:100%;background:var(--green);border-radius:999px}
+
+/* Cards */
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:1000px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:860px){.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.grid-3,.grid-4,.grid-2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card > p{color:var(--muted);font-size:15px}
+.ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--acc-soft);color:var(--acc);flex:none}
+#tab-governo .ico{background:var(--yellow);color:var(--black)}
+.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.fact{margin-top:auto;font:600 12.5px/1.4 var(--f-mono);color:var(--ink);padding-top:10px;border-top:1px dashed var(--line-strong)}
+.metric{font:800 28px/1 var(--f-display);letter-spacing:-.03em}
+.metric-l{font:500 12.5px/1.35 var(--f-mono);color:var(--muted)}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+/* Simulator */
+.sim{display:grid;grid-template-columns:280px minmax(0,1fr) 300px;gap:24px;align-items:start}
+@media (max-width:1100px){.sim{grid-template-columns:minmax(0,1fr) 300px}.steps-col{grid-column:1/-1;order:3}}
+@media (max-width:720px){.sim{grid-template-columns:1fr}}
+.panel-box{background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);padding:18px;display:grid;gap:16px;min-width:0}
+.ctl{display:grid;gap:6px}
+.ctl-top{display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:600}
+.ctl-top output{font:600 13.5px var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.hint{font:500 12px/1.4 var(--f-mono);color:var(--muted)}
+input[type="range"]{width:100%;accent-color:var(--acc);margin:0}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--paper);border:1px solid var(--line-strong);border-radius:12px;padding:4px}
+.seg button{appearance:none;border:0;background:none;border-radius:9px;padding:8px 4px;font:700 13px var(--f-body);cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--black);color:#fff}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:600;font-size:14px;cursor:pointer}
+.switch input{appearance:none;-webkit-appearance:none;width:44px;height:26px;border-radius:999px;background:var(--line-strong);position:relative;cursor:pointer;flex:none;margin:0;transition:background .2s}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.switch input:checked{background:var(--red)}
+.switch input:checked::after{transform:translateX(18px)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.steps button{appearance:none;font:inherit;color:inherit;text-align:left;display:grid;grid-template-columns:96px minmax(0,1fr);gap:2px 12px;width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);cursor:pointer}
+.steps .t{font:600 12.5px/1.5 var(--f-mono);color:var(--muted);grid-row:span 2}
+.steps .h{font-weight:700}
+.steps .d{color:var(--muted);font-size:14.5px}
+.steps li.on button{border-color:var(--acc);box-shadow:inset 4px 0 0 var(--acc);background:var(--acc-soft)}
+.steps li.done .t{color:var(--green)}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+@media (max-width:560px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--card);display:grid;gap:4px;min-width:0}
+.tile span{font:600 11px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.tile b{font:700 17px/1.2 var(--f-body);font-variant-numeric:tabular-nums}
+.tile.cofre b{color:var(--green)}
+
+/* Phone */
+.phone-col{display:grid;gap:12px;justify-items:center}
+.mode{display:inline-grid;grid-template-columns:1fr 1fr;border:1px solid var(--line-strong);border-radius:999px;padding:3px;background:var(--card)}
+.mode button{appearance:none;border:0;background:none;padding:6px 16px;border-radius:999px;font:700 13px var(--f-body);cursor:pointer;color:var(--muted)}
+.mode button[aria-pressed="true"]{background:var(--red);color:#fff}
+.phone{width:min(290px,100%);aspect-ratio:290/590;background:var(--black);border-radius:42px;padding:11px;box-shadow:0 22px 44px rgba(22,18,14,.22);position:relative}
+.phone::before{content:"";position:absolute;top:11px;left:50%;transform:translateX(-50%);width:90px;height:22px;background:var(--black);border-radius:0 0 14px 14px;z-index:2}
+.screen{height:100%;border-radius:32px;background:#fff;overflow:hidden;display:flex;flex-direction:column;font-size:13.5px;color:var(--ink)}
+.scr-head{background:var(--red);color:#fff;padding:40px 16px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.scr-logo{font:800 17px var(--f-display);letter-spacing:-.04em}
+.scr-logo i{font-style:normal;background:var(--yellow);color:var(--black);border-radius:999px;padding:1px 6px;margin-left:3px;font-size:12px}
+.scr-chip{font:700 11px var(--f-mono);background:rgba(255,255,255,.2);padding:4px 8px;border-radius:999px}
+.scr-body{flex:1;padding:16px;display:flex;flex-direction:column;gap:11px;overflow:hidden}
+.scr-title{font-weight:700;font-size:15px}
+.scr-amt{font:800 28px/1 var(--f-display);letter-spacing:-.04em}
+.scr-sub{color:var(--muted);font-size:12.5px}
+.scr-rows{display:grid;gap:7px;background:var(--paper);border-radius:12px;padding:10px 12px}
+.scr-rows div{display:flex;justify-content:space-between;gap:8px}
+.scr-rows span{color:var(--muted)}
+.scr-btn{margin-top:auto;background:var(--black);color:#fff;border-radius:12px;padding:12px;text-align:center;font-weight:700}
+.scr-ok{width:50px;height:50px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center}
+.scr-ok.warn{background:var(--yellow-deep)}
+.scr-ok .i{width:26px;height:26px;stroke-width:2.4}
+.scr-note{font-size:12px;color:var(--muted)}
+.scr-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.scr-tiles div{background:var(--paper);border-radius:10px;padding:10px;display:grid;gap:2px}
+.scr-tiles span{font-size:11.5px;color:var(--muted)}
+.scr-tiles b{font-size:15px}
+.split{display:flex;height:14px;border-radius:999px;overflow:hidden;border:1px solid var(--line-strong)}
+.split i{display:block;height:100%}
+.split .b{background:var(--yellow)} .split .c{background:var(--green)} .split .p{background:var(--blue)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;background:var(--c)}
+.rcpts{display:grid;gap:6px}
+.rcpts div{display:flex;justify-content:space-between;font-size:12.5px;border-bottom:1px dashed var(--line);padding-bottom:5px}
+.ussd-bar{background:#BCCBA3;color:#1C2A10;font:600 11px var(--f-mono);display:flex;justify-content:space-between;padding:34px 18px 6px}
+.ussd{flex:1;background:#D6E2C4;color:#1C2A10;font:500 13.5px/1.55 var(--f-mono);padding:14px 18px;white-space:pre-wrap;overflow:hidden}
+
+/* Charts and tables */
+.chart-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);padding:18px;display:grid;gap:4px}
+.chart-scroll{overflow-x:auto}
+.chart-scroll svg{display:block;width:100%;min-width:560px;height:auto}
+.ch-grid{stroke:var(--line)}
+.ch-ax{fill:var(--muted);font:500 11px var(--f-mono)}
+.ch-area{fill:var(--green);opacity:.16}
+.ch-line{fill:none;stroke:var(--green);stroke-width:2.5}
+.ch-dot{fill:var(--green);stroke:#fff;stroke-width:2}
+.ch-end{fill:var(--green);font:700 12.5px var(--f-body)}
+.ch-band-t{fill:var(--ink);font:700 11px var(--f-mono)}
+.ch-band.entrada{fill:var(--yellow-soft)} .ch-band.confianca{fill:var(--blue-soft)} .ch-band.pleno{fill:var(--green-soft)}
+.ch-div{stroke:var(--ink);stroke-dasharray:3 4;opacity:.45}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-m);background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14.5px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font:600 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--paper)}
+tbody tr:last-child td{border-bottom:0}
+tbody th{font-weight:700}
+.hl{background:var(--yellow-soft)}
+.yes,.no,.mid{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.yes{color:var(--green)} .no{color:var(--red)} .mid{color:var(--muted)}
+.yes .i,.no .i{width:17px;height:17px;stroke-width:2.4}
+
+/* FAQ */
+.faq{display:grid;gap:10px;max-width:860px}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:700 18px/1 var(--f-mono);color:var(--acc)}
+details[open] summary::after{content:"\2212"}
+details p{margin-top:10px;color:var(--muted)}
+
+/* Bank tab */
+.ficha{background:var(--card);border:2px solid var(--blue-deep);border-radius:var(--r-l);overflow:hidden;box-shadow:8px 8px 0 var(--blue-deep);width:100%;max-width:460px;justify-self:center}
+.ficha-head{background:var(--blue);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ficha-head b{font:700 16px var(--f-display);letter-spacing:-.02em}
+.ficha-head span{font:600 11px var(--f-mono);letter-spacing:.06em;background:var(--yellow);color:var(--black);padding:4px 8px;border-radius:6px}
+.ficha dl{margin:0;padding:6px 20px 12px;display:grid;grid-template-columns:104px minmax(0,1fr)}
+.ficha dt,.ficha dd{margin:0;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.ficha dt{font:600 11.5px/1.6 var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.ficha dl > :nth-last-child(-n+2){border-bottom:0}
+.arch{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.arch{grid-template-columns:1fr}}
+.layers{display:grid;gap:8px}
+.layer{background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);padding:14px 16px;display:grid;gap:10px}
+.layer-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline;flex-wrap:wrap}
+.layer-h b{font-size:15px}
+.layer-h span{font:500 12px var(--f-mono);color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{appearance:none;border:1.5px solid var(--line-strong);background:var(--paper);border-radius:999px;padding:8px 13px;font:600 13.5px/1.2 var(--f-body);cursor:pointer;color:var(--ink)}
+.chip.later{border-style:dashed}
+.chip.accent{border-color:var(--green);background:var(--green-soft)}
+.chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.down{display:flex;justify-content:center;color:var(--line-strong)}
+.band-blue{background:var(--blue-deep);color:#fff;border-radius:12px;padding:12px 16px;text-align:center;font-weight:700;font-size:14.5px}
+.arch-detail{position:sticky;top:150px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);padding:20px;display:grid;gap:12px;min-width:0}
+.k{font:600 11.5px var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block;margin-bottom:4px}
+.arch-detail p{color:var(--muted)}
+.arch-detail code{font:500 12.5px var(--f-mono);background:var(--blue-soft);color:var(--blue-deep);padding:3px 7px;border-radius:6px;display:inline-block;margin:2px 4px 2px 0;word-break:break-all}
+.seq{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.seq-svg{background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);overflow-x:auto;padding:8px}
+.seq-svg svg{display:block;min-width:760px;width:100%;max-width:1100px;margin-inline:auto;height:auto}
+.seq-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.seq-steps{grid-template-columns:1fr}}
+.seq-steps button{grid-template-columns:34px minmax(0,1fr)}
+.seq-steps .d{font-size:13.5px}
+.lane-h{fill:var(--blue-soft);stroke:var(--blue);stroke-width:1.2}
+.lane-t{fill:var(--blue-deep);font:700 12px var(--f-body)}
+.life{stroke:var(--line-strong);stroke-dasharray:4 4}
+.sq-line{stroke:var(--ink);stroke-width:1.4;fill:none}
+.sq-mk{fill:var(--ink)} .sq-mk2{fill:var(--blue)}
+.sq-bg{fill:var(--card)}
+.sq-l{fill:var(--ink);font:600 11.5px var(--f-body)}
+.sq-n{fill:var(--black)} .sq-nt{fill:#fff;font:700 10.5px var(--f-mono)}
+.sq.dim{opacity:.25}
+.sq.on .sq-line{stroke:var(--blue);stroke-width:2.4}
+.sq.on .sq-l{fill:var(--blue-deep);font-weight:800}
+.sq.on .sq-n{fill:var(--blue)}
+.list{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--muted)}
+.list b{color:var(--ink)}
+.gantt-scroll{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);padding:16px}
+.gantt{min-width:700px;display:grid;gap:10px}
+.g-row{display:grid;grid-template-columns:210px minmax(0,1fr);gap:12px;align-items:center}
+.g-label{font-weight:700;font-size:14px;line-height:1.3}
+.g-label small{display:block;color:var(--muted);font-weight:500;font-size:12.5px}
+.g-track{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));height:30px;background:linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/calc(100%/24) 100%;border-right:1px solid var(--line)}
+.g-bar{border-radius:8px;background:var(--blue);color:#fff;font:600 11.5px var(--f-mono);display:flex;align-items:center;padding-inline:8px;white-space:nowrap;overflow:hidden}
+.g-bar.y{background:var(--yellow);color:var(--black)} .g-bar.g{background:var(--green)} .g-bar.k{background:var(--black)}
+.g-weeks{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));font:500 11px var(--f-mono);color:var(--muted)}
+.g-gate{align-self:center;justify-self:center;width:16px;height:16px;background:var(--red);transform:rotate(45deg);border-radius:3px}
+.g-gate-l{font:600 11.5px var(--f-mono);color:var(--red);white-space:nowrap;align-self:center;padding-left:6px}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:20px;align-items:start}
+@media (max-width:860px){.calc{grid-template-columns:1fr}}
+.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:480px){.results{grid-template-columns:1fr}}
+.res{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;min-width:0}
+.res span{font:600 11px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.res b{font:800 21px/1.15 var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.res.wide{grid-column:1/-1}
+.bars{display:grid;gap:10px}
+.bar-row{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13.5px}
+@media (max-width:480px){.bar-row{grid-template-columns:1fr auto}.bar-row .hbar{grid-column:1/-1;order:3}}
+.hbar{height:14px;border-radius:999px;background:var(--paper);border:1px solid var(--line);overflow:hidden}
+.hbar i{display:block;height:100%;border-radius:999px;transition:width .35s}
+
+/* Government tab */
+.enif{background:var(--card);border:2px solid var(--black);border-radius:var(--r-l);box-shadow:8px 8px 0 var(--yellow);overflow:hidden;width:100%;max-width:460px;justify-self:center}
+.enif-head{background:var(--black);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.enif-head b{font:700 16px var(--f-display);letter-spacing:-.02em}
+.enif-head span{font:600 11px var(--f-mono);background:var(--yellow);color:var(--black);padding:4px 8px;border-radius:6px}
+.enif-body{padding:22px 20px 18px;display:grid;gap:22px}
+.gauge{display:grid;gap:8px}
+.gauge-top{display:flex;justify-content:space-between;gap:8px;font-weight:700;font-size:14.5px;flex-wrap:wrap}
+.gauge-top span{font:500 12px var(--f-mono);color:var(--muted)}
+.gtrack{position:relative;height:16px;border-radius:999px;background:var(--paper);border:1px solid var(--line-strong)}
+.gfill{position:absolute;inset:0 auto 0 0;border-radius:999px;background:var(--black)}
+.gtarget{position:absolute;top:-5px;bottom:-5px;width:4px;margin-left:-2px;background:var(--red);border-radius:2px}
+.ladder{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:end}
+.rung{display:flex;flex-direction:column;gap:8px;justify-content:flex-end;min-width:0}
+.rung .bar{border-radius:12px 12px 4px 4px;background:var(--black);color:#fff;padding:12px 10px;min-height:calc(78px + var(--i) * 26px);display:flex;flex-direction:column;justify-content:space-between;gap:8px}
+.rung:last-child .bar{background:var(--red)}
+.rung .n{font:800 20px/1 var(--f-display);color:var(--yellow)}
+.rung .bar b{font-size:14px;line-height:1.25}
+.rung .gov{font-size:12.5px;color:var(--muted);line-height:1.35}
+@media (max-width:860px){.ladder{grid-template-columns:1fr}.rung{flex-direction:row;align-items:center}.rung .bar{min-height:0;flex-direction:row;align-items:center;justify-content:flex-start;width:58%;flex:none;margin-left:calc(var(--i) * 3%)}.rung .gov{flex:1}}
+.contrib{display:grid;gap:8px}
+.ctrack{position:relative;height:22px;border-radius:999px;background:var(--paper);border:1px solid var(--line-strong);overflow:hidden}
+.cfill{position:absolute;inset:0 auto 0 0;background:var(--yellow);border-right:3px solid var(--black);transition:width .35s}
+.cscale{display:flex;justify-content:space-between;font:500 11.5px var(--f-mono);color:var(--muted)}
+
+/* Footer */
+footer{border-top:1px solid var(--line);background:var(--card);margin-top:8px}
+.foot{padding-block:32px;display:grid;gap:16px}
+.sources{columns:2;column-gap:32px;font-size:13px;color:var(--muted);padding-left:18px;margin:0}
+.sources li{break-inside:avoid;margin-bottom:6px}
+@media (max-width:700px){.sources{columns:1}}
+.disclaimer{font-size:13px;color:var(--muted);max-width:95ch}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body data-tab="cliente">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12"/><path d="M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/></symbol>
+  <symbol id="i-vault" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5V7M12 17v-1.5M6 20v1.5M18 20v1.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-stairs" viewBox="0 0 24 24"><path d="M3 20h5v-5h5v-5h5V5h3"/><path d="M14 4h4v4"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 7h15a3 3 0 0 1 3 3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7l12-4 2 4"/><circle cx="16.5" cy="14" r="1"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-id" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6.5 16c.5-1.5 1.5-2 2.5-2s2 .5 2.5 2M14 10h4M14 14h3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+  <symbol id="i-data" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 24 24"><path d="M4 4h16l-6 8v6l-4 2v-8z"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24"><path d="M5 20v-4M10 20v-8M15 20V8M20 20V4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5c3 0 5.5 1.5 5.5 4.5"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h6"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/><path d="M16 8h4v4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-landmark" viewBox="0 0 24 24"><path d="M3 21h18M5 21V10M19 21V10M9.5 21V10M14.5 21V10M2 10l10-6 10 6z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v16M6 14l6 6 6-6"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="pano" aria-hidden="true"></div>
+  <div class="wrap top-row">
+    <a class="logo" href="#cliente" aria-label="Kumbu24"><span>kumbu</span><span class="logo-24">24</span></a>
+    <p class="concept">Protótipo conceptual · piloto proposto ao BFA · valores ilustrativos</p>
+  </div>
+  <div class="wrap">
+    <div class="tabs" role="tablist" aria-label="Vistas do Kumbu24">
+      <button role="tab" id="t-cliente" data-tab="cliente" aria-controls="tab-cliente" aria-selected="true">Para o cliente<small>anúncio e simulação</small></button>
+      <button role="tab" id="t-banco" data-tab="banco" aria-controls="tab-banco" aria-selected="false" tabindex="-1">Para o banco<small>piloto e integração</small></button>
+      <button role="tab" id="t-governo" data-tab="governo" aria-controls="tab-governo" aria-selected="false" tabindex="-1">Para o Governo<small>impacto e inclusão</small></button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ============ TAB 1: CLIENTE ============ -->
+<section class="panel" id="tab-cliente" role="tabpanel" aria-labelledby="t-cliente">
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Para quem vende todos os dias</span>
+        <h1 class="h-hero">Kumbu de manhã. Vendas à tarde. Poupança todos os dias.</h1>
+        <p class="lead">O Kumbu24 empresta até Kz 90 000 por dia para comprar o stock, paga-se sozinho com as vendas ao fim da tarde e guarda um pouco de cada venda no seu Cofre. Quanto mais poupa, maior o limite e menor o juro.</p>
+        <div class="pills">
+          <span class="pill"><svg class="i"><use href="#i-id"/></svg>Só precisa do BI</span>
+          <span class="pill"><svg class="i"><use href="#i-phone"/></svg>Qualquer telemóvel, sem dados</span>
+          <span class="pill"><svg class="i"><use href="#i-shield"/></svg>Sem fiador nem papelada</span>
+          <span class="pill"><svg class="i"><use href="#i-receipt"/></svg>Custo total antes de aceitar</span>
+        </div>
+        <div class="btn-row">
+          <a class="btn red" href="#simulador">Simular o meu dia</a>
+          <a class="btn ghost" href="#mes">Ver um mês de poupança</a>
+        </div>
+      </div>
+      <div class="ticket" role="img" aria-label="Exemplo de um kumbu do dia: Kz 50 000 pagos às 18:00, juro de Kz 29, Kz 12 000 guardados no Cofre">
+        <div class="pano" aria-hidden="true"></div>
+        <div class="ticket-body">
+          <div class="ticket-k">Kumbu de hoje · exemplo</div>
+          <div class="ticket-amt num">Kz 50 000</div>
+          <div class="ticket-rows">
+            <div><span>Na conta às</span><b>07:01</b></div>
+            <div><span>Pago com as vendas às</span><b>18:00</b></div>
+            <div><span>Juro do dia</span><b>Kz 29</b></div>
+            <div><span>Guardado no Cofre hoje</span><b class="green">Kz 12 000</b></div>
+            <div><span>No Bolso hoje</span><b>Kz 6 000</b></div>
+          </div>
+          <div class="lvl">
+            <div class="lvl-top"><span>Nível Confiança</span><span>18 de 25 dias para Pleno</span></div>
+            <div class="lvl-bar"><i style="width:72%"></i></div>
+          </div>
+        </div>
+        <div class="stamp" aria-hidden="true">PAGO<small>18:00</small></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="block" aria-labelledby="ben-c">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Benefícios</span>
+        <h2 class="h-sec" id="ben-c">Tudo o que um dia de mercado precisa, num só telemóvel</h2>
+        <p class="lead">Crédito, pagamento, poupança e um nome que cresce. Cada função resolve um problema real de quem compra de manhã e vende até ao fim da tarde.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-bolt"/></svg></span><h3 class="h-card">Crédito imediato, todos os dias</h3><p>Peça de manhã e receba na conta em segundos, até Kz 90 000 por dia. Compra o stock antes de abrir a banca.</p><span class="fact">Prazo de 1 dia · decisão automática</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-clock"/></svg></span><h3 class="h-card">Paga ao fim do dia, sozinho</h3><p>As vendas recebidas por KWiK, Multicaixa ou Unitel Money pagam o kumbu às 18:00. Não precisa de ir ao banco nem de decorar datas.</p><span class="fact">Reembolso automático às 18:00</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-repeat"/></svg></span><h3 class="h-card">Poupança automática em cada venda</h3><p>Escolha quanto guarda de cada venda, de 2% a 10%. O Cofre enche sozinho, venda a venda, e pode mudar a percentagem quando quiser.</p><span class="fact">10% de Kz 120 000 = Kz 12 000 por dia</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-vault"/></svg></span><h3 class="h-card">Poupança diária que rende</h3><p>O Cofre é um depósito remunerado no banco. O dinheiro fica seguro, longe da tentação, e cresce enquanto trabalha.</p><span class="fact">Num banco autorizado pelo BNA</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-shield"/></svg></span><h3 class="h-card">O Cofre é a sua garantia</h3><p>Sem fiador nem bens penhorados. Uma pequena parte do Cofre garante o kumbu do dia e fica livre logo que paga.</p><span class="fact">Cativo só enquanto há kumbu em curso</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-stairs"/></svg></span><h3 class="h-card">Constrói o seu nome</h3><p>Cada dia pago conta. Passa de Entrada a Confiança e a Pleno, com mais limite, menos juro e menos garantia.</p><span class="fact">Entrada › Confiança › Pleno</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-wallet"/></svg></span><h3 class="h-card">Bolso: a casa separada do negócio</h3><p>Uma parte de cada venda vai para o Bolso, o seu dinheiro pessoal, com cartão ou QR. O dinheiro do stock deixa de pagar as despesas da casa.</p><span class="fact">Exemplo: 5% de cada venda</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-receipt"/></svg></span><h3 class="h-card">Custo claro antes de aceitar</h3><p>Vê o juro em kwanzas e a TAEG antes de confirmar. Sem comissão de abertura nem custos escondidos.</p><span class="fact">Kz 50 000 por um dia: juro de Kz 29</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-phone"/></svg></span><h3 class="h-card">Em qualquer telemóvel</h3><p>Use a app ou o menu USSD, sem dados móveis e sem smartphone. Tem ajuda presencial nos agentes do mercado.</p><span class="fact">App · USSD · agentes</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="simulador" aria-labelledby="sim-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Simulador</span>
+        <h2 class="h-sec" id="sim-h">Um dia da Dona Rosa com o Kumbu24</h2>
+        <p class="lead">A Dona Rosa vende fruta no mercado. Mude o nível, o montante, as vendas e a poupança, e veja o dia passo a passo, na app ou no USSD.</p>
+      </div>
+      <div class="sim">
+        <div class="panel-box" aria-label="Pressupostos do dia">
+          <div class="ctl">
+            <div class="ctl-top"><span>Nível de reputação</span></div>
+            <div class="seg" id="lv-seg">
+              <button type="button" data-lv="entrada" aria-pressed="false">Entrada</button>
+              <button type="button" data-lv="confianca" aria-pressed="true">Confiança</button>
+              <button type="button" data-lv="pleno" aria-pressed="false">Pleno</button>
+            </div>
+            <p class="hint" id="lv-hint"></p>
+          </div>
+          <div class="ctl"><label class="ctl-top" for="in-amount"><span>Kumbu pedido</span><output id="out-amount" for="in-amount"></output></label><input type="range" id="in-amount" min="10000" max="60000" step="5000" value="50000"></div>
+          <div class="ctl"><label class="ctl-top" for="in-sales"><span>Vendas do dia</span><output id="out-sales" for="in-sales"></output></label><input type="range" id="in-sales" min="20000" max="300000" step="5000" value="120000"></div>
+          <div class="ctl"><label class="ctl-top" for="in-cofre"><span>Para o Cofre</span><output id="out-cofre" for="in-cofre"></output></label><input type="range" id="in-cofre" min="2" max="10" step="1" value="10"></div>
+          <div class="ctl"><label class="ctl-top" for="in-bolso"><span>Para o Bolso</span><output id="out-bolso" for="in-bolso"></output></label><input type="range" id="in-bolso" min="0" max="5" step="1" value="5"></div>
+          <label class="switch" for="in-weak"><span>Dia fraco: vendas abaixo do kumbu</span><input type="checkbox" id="in-weak"></label>
+          <div class="btn-row"><button type="button" class="btn red" id="play">&#9654; Ver o dia</button><button type="button" class="btn ghost" id="reset">Recomeçar</button></div>
+        </div>
+        <div class="steps-col">
+          <ol class="steps" id="steps"></ol>
+          <div class="tiles" id="day-tiles"></div>
+        </div>
+        <div class="phone-col">
+          <div class="mode" role="group" aria-label="Canal">
+            <button type="button" data-mode="app" aria-pressed="true">App</button>
+            <button type="button" data-mode="ussd" aria-pressed="false">USSD</button>
+          </div>
+          <div class="phone"><div class="screen" id="screen" aria-live="polite"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="mes" aria-labelledby="mes-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Um mês</span>
+        <h2 class="h-sec" id="mes-h">Em 30 dias, o Cofre cresce e o juro desce</h2>
+        <p class="lead">Cliente novo que pede o limite máximo todos os dias e paga sempre a horas. Usa as vendas e a percentagem do Cofre escolhidas no simulador.</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-scroll"><svg id="month-chart" viewBox="0 0 1000 340" role="img" aria-label="Saldo do Cofre ao longo de 30 dias, com os níveis de reputação"></svg></div>
+        <div class="tiles" id="month-tiles"></div>
+      </div>
+      <p class="note">Regras ilustrativas, a calibrar no piloto: Confiança com 10 dias pagos e Cofre de Kz 20 000; Pleno com 25 dias pagos e Cofre de Kz 60 000. Vendas com o ritmo de uma semana de mercado.</p>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="cmp-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Comparação</span>
+        <h2 class="h-sec" id="cmp-h">Porquê o Kumbu24 e não o agiota</h2>
+        <p class="lead">O crédito informal é rápido, mas não poupa por si, não constrói o seu nome e não diz o custo antes. O Kumbu24 é tão rápido e faz as três coisas.</p>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th scope="col">O que importa</th><th scope="col">Agiota</th><th scope="col">App de crédito não autorizada</th><th scope="col" class="hl">Kumbu24</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Autorizado pelo BNA</th><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Não</span></td><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Não</span></td><td class="hl"><span class="yes"><svg class="i"><use href="#i-check"/></svg>Sim</span></td></tr>
+            <tr><th scope="row">Custo total conhecido antes de aceitar</th><td><span class="mid">Não garantido</span></td><td><span class="mid">Não garantido</span></td><td class="hl"><span class="yes"><svg class="i"><use href="#i-check"/></svg>Sim, em kwanzas e TAEG</span></td></tr>
+            <tr><th scope="row">Poupança automática</th><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Não</span></td><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Não</span></td><td class="hl"><span class="yes"><svg class="i"><use href="#i-check"/></svg>Sim, em cada venda</span></td></tr>
+            <tr><th scope="row">Constrói historial de crédito</th><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Não</span></td><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Não</span></td><td class="hl"><span class="yes"><svg class="i"><use href="#i-check"/></svg>Sim, na CIRC</span></td></tr>
+            <tr><th scope="row">Juro desce com o tempo</th><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Não</span></td><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Não</span></td><td class="hl"><span class="yes"><svg class="i"><use href="#i-check"/></svg>Sim, por nível</span></td></tr>
+            <tr><th scope="row">Dados pessoais protegidos</th><td><span class="mid">Sem garantias</span></td><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Em risco</span></td><td class="hl"><span class="yes"><svg class="i"><use href="#i-check"/></svg>Banco regulado</span></td></tr>
+            <tr><th scope="row">Funciona sem dados móveis</th><td><span class="yes"><svg class="i"><use href="#i-check"/></svg>Sim</span></td><td><span class="no"><svg class="i"><use href="#i-x"/></svg>Não</span></td><td class="hl"><span class="yes"><svg class="i"><use href="#i-check"/></svg>Sim, por USSD</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Em agosto de 2026 o BNA alertou para nove entidades que concedem crédito sem autorização através de apps e redes sociais, e lembrou que o crédito está reservado a instituições autorizadas.</p>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Perguntas</span>
+        <h2 class="h-sec" id="faq-h">O que a Dona Rosa pergunta antes de aderir</h2>
+      </div>
+      <div class="faq">
+        <details open><summary>Quanto custa?</summary><p>Só o juro dos dias em que usa o kumbu, sem comissão de abertura. Com Kz 50 000 durante um dia, o juro é de cerca de Kz 29 no nível Confiança. Vê sempre o valor exato e a TAEG antes de aceitar.</p></details>
+        <details><summary>E se num dia vender pouco?</summary><p>O kumbu é pago com o que vendeu e o Cofre cobre a diferença. O crédito fica pago e o limite do dia seguinte ajusta-se ao que aconteceu.</p></details>
+        <details><summary>Posso levantar o dinheiro do Cofre?</summary><p>Sim. O saldo livre levanta-se quando quiser. Só a parte que garante o kumbu do dia fica cativa, e apenas até ao pagamento.</p></details>
+        <details><summary>Preciso de conta no banco?</summary><p>Precisa do BI. A conta abre-se no registo, na app, no USSD ou com um agente do mercado.</p></details>
+        <details><summary>O que acontece se eu não conseguir pagar?</summary><p>O banco usa a parte cativa do Cofre e propõe um plano de pagamento sem custos extra. O nível desce até voltar a pagar a horas.</p></details>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ============ TAB 2: BANCO ============ -->
+<section class="panel" id="tab-banco" role="tabpanel" aria-labelledby="t-banco" hidden>
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Para as equipas de TI e de produto do BFA</span>
+        <h2 class="h-hero">Crédito diário em cima do que o BFA já tem, sem mexer no core.</h2>
+        <p class="lead">O Kumbu24 é um motor de crédito em três camadas de APIs. Liga o BFA App e o BFA Tecla *419# ao core, à EMIS, à Unitel e à CIRC. A carteira fica no balanço do BFA e o piloto prova o modelo com clientes reais em 24 semanas.</p>
+        <div class="pills">
+          <span class="pill"><svg class="i"><use href="#i-vault"/></svg>Carteira no balanço do BFA</span>
+          <span class="pill"><svg class="i"><use href="#i-layers"/></svg>19 blocos API reutilizáveis</span>
+          <span class="pill"><svg class="i"><use href="#i-shield"/></svg>Sem alterações ao core</span>
+          <span class="pill"><svg class="i"><use href="#i-lock"/></svg>Aviso 14/16 desde o desenho</span>
+        </div>
+        <div class="btn-row">
+          <a class="btn blue" href="#arquitetura">Explorar a arquitetura</a>
+          <a class="btn ghost" href="#fluxo">Ver o fluxo de um crédito</a>
+        </div>
+      </div>
+      <div class="ficha">
+        <div class="pano" aria-hidden="true"></div>
+        <div class="ficha-head"><b>Ficha do piloto</b><span>PROPOSTA</span></div>
+        <dl>
+          <dt>Credor</dt><dd>BFA, com a licença bancária atual (Lei 14/21)</dd>
+          <dt>Canais</dt><dd>BFA App e BFA Tecla *419# (números Unitel, sem dados)</dd>
+          <dt>Produto</dt><dd>Crédito de 1 dia até Kz 90 000, juro ao dia, sem comissões</dd>
+          <dt>KYC</dt><dd>BI obrigatório, NIF e consulta à CIRC</dd>
+          <dt>Garantia</dt><dd>Parte cativa do Cofre, só com crédito em curso</dd>
+          <dt>Integração</dt><dd>API-led em três camadas: experiência, processo, sistema</dd>
+          <dt>Equipas</dt><dd>BFA lidera; implementador externo a selecionar</dd>
+          <dt>Duração</dt><dd>24 semanas, calendário indicativo</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <section class="block" aria-labelledby="ben-b">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Benefícios para o BFA</span>
+        <h2 class="h-sec" id="ben-b">O crédito diário é a porta de entrada; o valor está no que ele traz para o balanço</h2>
+        <p class="lead">O juro de um empréstimo de um dia é pequeno. Os depósitos do Cofre, os novos clientes identificados e os dados de pagamento são o negócio.</p>
+      </div>
+      <div class="grid-4">
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-vault"/></svg></span><h3 class="h-card">Depósitos estáveis e baratos</h3><p>Cada venda põe dinheiro no Cofre, dentro do BFA. É financiamento de baixo custo para a carteira de crédito.</p><span class="fact">Taxa BNA: 14% (17 nov 2026)</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-id"/></svg></span><h3 class="h-card">Novos clientes, todos com BI</h3><p>O KYC obrigatório traz para o banco comerciantes hoje fora do sistema, identificados e com conta.</p><span class="fact">Só 42% da população tem BI</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-shield"/></svg></span><h3 class="h-card">Risco curto e garantido</h3><p>A exposição dura um dia, é paga pelas vendas e tem parte do Cofre cativa. A CIRC e os níveis limitam o resto.</p><span class="fact">Exposição máxima: 1 dia, Kz 90 000</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-layers"/></svg></span><h3 class="h-card">Sem alterar o core</h3><p>A lógica vive nas APIs de processo. O core recebe contas, cativos e lançamentos pelos serviços que já expõe.</p><span class="fact">API-led: 3 camadas, 19 blocos</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-data"/></svg></span><h3 class="h-card">Dados que hoje não chegam ao crédito</h3><p>As vendas recebidas por KWiK, Multicaixa e Unitel Money alimentam o scoring, com consentimento do cliente.</p><span class="fact">KWiK: 35 milhões de transferências em 2025</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-funnel"/></svg></span><h3 class="h-card">Funil para produtos maiores</h3><p>Quem chega a Pleno passa para Crédito Pessoal, crédito PME e seguros, já com historial no BFA.</p><span class="fact">Graduação na fase 3</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-signal"/></svg></span><h3 class="h-card">A vantagem Unitel</h3><p>A Unitel é o maior acionista do BFA e opera a rede e a Unitel Money. O BFA Tecla já funciona em qualquer telemóvel Unitel.</p><span class="fact">Unitel: 36,9% do BFA (fim de 2025)</span></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-lock"/></svg></span><h3 class="h-card">Conformidade desde o desenho</h3><p>FTI e TAEG antes de cada aceitação, consentimentos com finalidade, trilho de auditoria e reporte AML.</p><span class="fact">Aviso 14/16 · Aviso 5/17</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="arquitetura" aria-labelledby="arq-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Arquitetura</span>
+        <h2 class="h-sec" id="arq-h">19 blocos em três camadas, ligados aos sistemas do BFA</h2>
+        <p class="lead">Escolha um bloco para ver o que faz, as APIs, a regra-chave, a fase e quem é responsável. Tracejado: fases 2 e 3. Destaque verde: Cofre e Bolso.</p>
+      </div>
+      <div class="arch">
+        <div class="layers" id="layers"></div>
+        <aside class="arch-detail" id="arch-detail" aria-live="polite"></aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="fluxo" aria-labelledby="flx-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Fluxo</span>
+        <h2 class="h-sec" id="flx-h">Um crédito diário de ponta a ponta, em 12 passos</h2>
+        <p class="lead">Do pedido das 07:00 ao reembolso das 18:00. Carregue em Reproduzir ou escolha um passo; o diagrama mostra que sistema fala com qual.</p>
+      </div>
+      <div class="seq">
+        <div class="seq-svg"><svg id="seq-svg" viewBox="0 0 760 570" role="img" aria-label="Diagrama de sequência do crédito diário Kumbu24"></svg></div>
+        <div class="panel-box">
+          <div class="btn-row"><button type="button" class="btn blue" id="seq-play">&#9654; Reproduzir</button><button type="button" class="btn ghost" id="seq-all">Ver todos</button></div>
+          <ol class="steps seq-steps" id="seq-list"></ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="int-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Integrações</span>
+        <h2 class="h-sec" id="int-h">Seis sistemas, cada um ligado uma só vez</h2>
+        <p class="lead">Cada sistema fica atrás de uma API de sistema reutilizável. A última coluna lista o que a equipa de TI do BFA precisa de confirmar na descoberta.</p>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th scope="col">Sistema</th><th scope="col">Padrão de integração</th><th scope="col">Dados trocados</th><th scope="col">Fase</th><th scope="col">A confirmar pelo BFA</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Core bancário BFA</th><td>API de sistema sobre os serviços que o core já expõe</td><td>Contas, saldos, cativos, lançamentos</td><td>1</td><td>Interfaces disponíveis e ambientes de teste</td></tr>
+            <tr><th scope="row">EMIS: Multicaixa e KWiK</th><td>Notificação de recebimentos e consulta de histórico</td><td>Vendas recebidas por conta</td><td>1</td><td>Acesso a eventos em tempo quase real</td></tr>
+            <tr><th scope="row">Unitel: USSD e SMS</th><td>Novo ramo do menu BFA Tecla *419#; envio de SMS</td><td>Sessões, OTP, FTI por SMS</td><td>1</td><td>Extensão do menu e custos por sessão</td></tr>
+            <tr><th scope="row">Unitel Money</th><td>API de parceiro</td><td>Recebimentos e distribuição a não clientes</td><td>1 e 2</td><td>Acordo de dados com parte relacionada</td></tr>
+            <tr><th scope="row">CIRC do BNA</th><td>Consulta na decisão e reporte diário</td><td>Responsabilidades de crédito</td><td>1</td><td>Regras de reporte para micro-montantes</td></tr>
+            <tr><th scope="row">Identificação: BI e NIF</th><td>Validação junto das fontes oficiais</td><td>Identidade e NIF</td><td>1</td><td>Disponibilidade de API ou processo alternativo</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="seg-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Segurança e conformidade</span>
+        <h2 class="h-sec" id="seg-h">Pronto para o BNA e para a auditoria interna antes do primeiro cliente</h2>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-top"><h3 class="h-card">Segurança</h3><span class="ico"><svg class="i"><use href="#i-lock"/></svg></span></div>
+          <ul class="list">
+            <li><b>Credenciais</b> num cofre de segredos, nunca no código nem nos registos.</li>
+            <li><b>Cifragem</b> em trânsito e em repouso para dados pessoais e de pagamento.</li>
+            <li><b>Trilho de auditoria</b> imutável para decisões, consentimentos e aceitações.</li>
+            <li><b>Acessos por perfis</b> na consola interna, com revisão periódica.</li>
+            <li><b>Testes de intrusão</b> antes do piloto fechado, como critério de passagem.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="card-top"><h3 class="h-card">Conformidade BNA</h3><span class="ico"><svg class="i"><use href="#i-receipt"/></svg></span></div>
+          <ul class="list">
+            <li><b>FTI</b> na simulação e na aprovação (Aviso 14/16, art. 5.º e 7.º); no USSD, resumo no ecrã e FTI completa por SMS.</li>
+            <li><b>TAEG</b> com juros, impostos e encargos (art. 3.º e 8.º).</li>
+            <li><b>Solvabilidade</b> com consulta à CIRC em cada decisão (art. 6.º).</li>
+            <li><b>Livre revogação</b> de 15 dias (art. 10.º): regime do produto a definir.</li>
+            <li><b>Reestruturação</b> sem aumento de encargos (art. 14.º, n.º 5); preço e liquidação em kwanzas (Aviso 5/17).</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="plano-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Plano do piloto</span>
+        <h2 class="h-sec" id="plano-h">24 semanas, duas portas de passagem</h2>
+        <p class="lead">Calendário indicativo, a acordar com o BFA. O piloto fechado só abre depois dos testes de segurança; o alargado só depois das métricas do fechado.</p>
+      </div>
+      <div class="gantt-scroll">
+        <div class="gantt" role="img" aria-label="Calendário indicativo do piloto em 24 semanas">
+          <div class="g-row"><span></span><div class="g-weeks"><span style="grid-column:1">S1</span><span style="grid-column:5">S5</span><span style="grid-column:9">S9</span><span style="grid-column:13">S13</span><span style="grid-column:17">S17</span><span style="grid-column:21">S21</span><span style="grid-column:24">S24</span></div></div>
+          <div class="g-row"><span class="g-label">Descoberta e acessos<small>sistemas, dados, ambientes</small></span><div class="g-track"><span class="g-bar k" style="grid-column:1/4">S1-S3</span></div></div>
+          <div class="g-row"><span class="g-label">Construção e integração<small>APIs, motor, canais</small></span><div class="g-track"><span class="g-bar" style="grid-column:4/12">S4-S11</span></div></div>
+          <div class="g-row"><span class="g-label">Segurança e testes<small>intrusão, aceitação, BNA</small></span><div class="g-track"><span class="g-bar y" style="grid-column:10/13">S10-S12</span><span class="g-gate" style="grid-column:13"></span><span class="g-gate-l" style="grid-column:14/20">Porta 1: segurança aprovada</span></div></div>
+          <div class="g-row"><span class="g-label">Piloto fechado<small>colaboradores e clientes convidados</small></span><div class="g-track"><span class="g-bar g" style="grid-column:13/17">S13-S16</span><span class="g-gate" style="grid-column:17"></span><span class="g-gate-l" style="grid-column:18/24">Porta 2: métricas</span></div></div>
+          <div class="g-row"><span class="g-label">Piloto alargado<small>clientes Unitel em mercados escolhidos</small></span><div class="g-track"><span class="g-bar g" style="grid-column:17/25">S17-S24</span></div></div>
+        </div>
+      </div>
+      <div class="grid-3" style="margin-top:20px">
+        <article class="card"><h3 class="h-card">Reembolso no próprio dia</h3><p>Percentagem de kumbus pagos às 18:00 só com as vendas.</p><span class="fact">Meta: a definir com o BFA</span></article>
+        <article class="card"><h3 class="h-card">Incumprimento por coorte</h3><p>Perda por coorte semanal, face ao apetite de risco do BFA.</p><span class="fact">Meta: a definir com o BFA</span></article>
+        <article class="card"><h3 class="h-card">Adesão ao Cofre</h3><p>Clientes com poupança automática ativa e percentagem média escolhida.</p><span class="fact">Meta: a definir com o BFA</span></article>
+        <article class="card"><h3 class="h-card">Saldo médio do Cofre</h3><p>Depósitos por cliente ao fim de 30, 60 e 90 dias.</p><span class="fact">Meta: a definir com o BFA</span></article>
+        <article class="card"><h3 class="h-card">Dias de uso por mês</h3><p>Frequência de uso por cliente ativo, por mercado.</p><span class="fact">Meta: a definir com o BFA</span></article>
+        <article class="card"><h3 class="h-card">Tempo até ao dinheiro</h3><p>Do pedido ao crédito na conta, medido no canal.</p><span class="fact">Meta: a definir com o BFA</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="calculadora" aria-labelledby="calc-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Calculadora</span>
+        <h2 class="h-sec" id="calc-h">Quanto vale o piloto para o BFA</h2>
+        <p class="lead">Ajuste os pressupostos e compare o juro com os depósitos do Cofre. Cálculo ilustrativo, sem custos operacionais nem perdas.</p>
+      </div>
+      <div class="calc">
+        <div class="panel-box">
+          <div class="ctl"><label class="ctl-top" for="pc-clients"><span>Clientes ativos</span><output id="o-pc-clients"></output></label><input type="range" id="pc-clients" min="500" max="50000" step="500" value="5000"></div>
+          <div class="ctl"><label class="ctl-top" for="pc-amount"><span>Kumbu médio</span><output id="o-pc-amount"></output></label><input type="range" id="pc-amount" min="10000" max="90000" step="5000" value="50000"></div>
+          <div class="ctl"><label class="ctl-top" for="pc-days"><span>Dias de uso por mês</span><output id="o-pc-days"></output></label><input type="range" id="pc-days" min="4" max="26" step="1" value="18"></div>
+          <div class="ctl"><label class="ctl-top" for="pc-rate"><span>Taxa anual média</span><output id="o-pc-rate"></output></label><input type="range" id="pc-rate" min="12" max="30" step="0.5" value="21"></div>
+          <div class="ctl"><label class="ctl-top" for="pc-sales"><span>Vendas por cliente e dia</span><output id="o-pc-sales"></output></label><input type="range" id="pc-sales" min="20000" max="300000" step="10000" value="100000"></div>
+          <div class="ctl"><label class="ctl-top" for="pc-cofre"><span>Percentagem para o Cofre</span><output id="o-pc-cofre"></output></label><input type="range" id="pc-cofre" min="2" max="10" step="1" value="5"></div>
+          <div class="ctl"><label class="ctl-top" for="pc-ret"><span>Parte do Cofre que fica</span><output id="o-pc-ret"></output></label><input type="range" id="pc-ret" min="10" max="100" step="10" value="50"></div>
+        </div>
+        <div class="results">
+          <div class="res"><span>Crédito concedido por mês</span><b id="r-credit"></b></div>
+          <div class="res"><span>Juro por mês</span><b id="r-interest"></b></div>
+          <div class="res"><span>Novos depósitos no Cofre por mês</span><b id="r-dep" class="green"></b></div>
+          <div class="res"><span>Saldo do Cofre ao fim de 6 meses</span><b id="r-bal" class="green"></b></div>
+          <div class="res wide">
+            <span>Por mês: juro face a depósitos</span>
+            <div class="bars">
+              <div class="bar-row"><span>Juro</span><div class="hbar"><i id="b-int" style="background:var(--blue)"></i></div><b class="num small" id="b-int-v"></b></div>
+              <div class="bar-row"><span>Depósitos do Cofre</span><div class="hbar"><i id="b-dep" style="background:var(--green)"></i></div><b class="num small" id="b-dep-v"></b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="note">Pressupostos: cada kumbu dura um dia; 26 dias de venda por mês; o saldo a 6 meses aplica a parte retida aos depósitos acumulados. Valores para discussão, não para orçamento.</p>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="ent-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Modelo de entrega</span>
+        <h2 class="h-sec" id="ent-h">O BFA decide e é dono; o implementador constrói e transfere</h2>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <div class="card-top"><h3 class="h-card">Equipa interna do BFA</h3><span class="ico"><svg class="i"><use href="#i-landmark"/></svg></span></div>
+          <ul class="list">
+            <li>Produto, preço e níveis do Cofre</li>
+            <li>Política de risco e validação dos modelos</li>
+            <li>Conformidade, jurídico e relação com o BNA</li>
+            <li>Canais BFA App e BFA Tecla</li>
+            <li>Operação após a passagem e propriedade do código</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="card-top"><h3 class="h-card">Implementador externo, a selecionar</h3><span class="ico"><svg class="i"><use href="#i-layers"/></svg></span></div>
+          <ul class="list">
+            <li>APIs de sistema e de processo, com testes automáticos</li>
+            <li>Motor de regras e fluxos de dados para o scoring</li>
+            <li>FTI, TAEG, consentimentos e trilhos de auditoria</li>
+            <li>Segurança e apoio aos testes de intrusão</li>
+            <li>Suporte com níveis de serviço e transferência de conhecimento</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ============ TAB 3: GOVERNO ============ -->
+<section class="panel" id="tab-governo" role="tabpanel" aria-labelledby="t-governo" hidden>
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Para o Governo e o BNA</span>
+        <h2 class="h-hero">Cada venda no mercado pode virar identidade, poupança e crédito formal.</h2>
+        <p class="lead">O Kumbu24 exige BI, abre uma conta bancária, cria poupança e dá historial de crédito a quem hoje vive fora do sistema. Cada cliente novo conta diretamente para as metas da Estratégia Nacional de Inclusão Financeira 2025-2027.</p>
+        <div class="pills">
+          <span class="pill"><svg class="i"><use href="#i-id"/></svg>Identificação com BI</span>
+          <span class="pill"><svg class="i"><use href="#i-chart"/></svg>Inclusão mensurável</span>
+          <span class="pill"><svg class="i"><use href="#i-shield"/></svg>Crédito legal e barato</span>
+          <span class="pill"><svg class="i"><use href="#i-book"/></svg>Literacia pela prática</span>
+        </div>
+        <div class="btn-row">
+          <a class="btn" href="#contributo">Calcular o contributo</a>
+          <a class="btn ghost" href="#degraus">Ver o caminho para a formalização</a>
+        </div>
+      </div>
+      <div class="enif">
+        <div class="pano" aria-hidden="true"></div>
+        <div class="enif-head"><b>Metas da ENIF</b><span>META 2027</span></div>
+        <div class="enif-body">
+          <div class="gauge">
+            <div class="gauge-top">Inclusão financeira<span>51,7% (T1 2026) · meta 65%</span></div>
+            <div class="gtrack" role="img" aria-label="Inclusão financeira em 51,7%, meta de 65%"><div class="gfill" style="width:51.7%"></div><div class="gtarget" style="left:65%"></div></div>
+          </div>
+          <div class="gauge">
+            <div class="gauge-top">População bancarizada<span>cerca de 32% · meta 36%</span></div>
+            <div class="gtrack" role="img" aria-label="Bancarização de cerca de 32%, meta de 36%"><div class="gfill" style="width:32%"></div><div class="gtarget" style="left:36%"></div></div>
+          </div>
+          <div class="gauge">
+            <div class="gauge-top">População com BI<span>42% · objetivo: todos</span></div>
+            <div class="gtrack" role="img" aria-label="42% da população tem BI"><div class="gfill" style="width:42%;background:var(--red)"></div></div>
+          </div>
+          <p class="small muted">Linha vermelha: meta para 2027. Fontes: Governo de Angola via ANGOP (julho de 2026); Expansão (abril de 2025).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="block" aria-labelledby="ben-g">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Benefícios para o país</span>
+        <h2 class="h-sec" id="ben-g">Oito razões para o Governo apoiar o Kumbu24</h2>
+        <p class="lead">O produto é privado e o risco é do banco. Os resultados são públicos: mais pessoas identificadas, mais poupança formal e mais crédito legal onde ele hoje não chega.</p>
+      </div>
+      <div class="grid-4">
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-id"/></svg></span><h3 class="h-card">Mais pessoas identificadas</h3><p>O BI é a porta de entrada. Cada vendedor ganha uma razão concreta e diária para tirar o BI, e cada BI passa a ter uma conta e um NIF em uso.</p><div class="fact"><div class="metric">42%</div><div class="metric-l">da população tem BI</div></div></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-users"/></svg></span><h3 class="h-card">Mais inclusão financeira</h3><p>Cada cliente abre conta, poupa e usa crédito formal. Conta para as duas metas da ENIF: inclusão e bancarização.</p><div class="fact"><div class="metric">+1 pp</div><div class="metric-l">de bancarização por cada 178 000 novos clientes</div></div></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-chart"/></svg></span><h3 class="h-card">Economia mais dinâmica</h3><p>Capital de giro diário para quem compra e vende todos os dias. É no setor informal que o crédito ainda não chega.</p><div class="fact"><div class="metric">80%</div><div class="metric-l">da atividade económica é informal</div></div></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-book"/></svg></span><h3 class="h-card">Literacia e empreendedorismo</h3><p>Aprender fazendo: custo antes de aceitar, poupança automática, metas de nível e mensagens de gestão. O comerciante passa a gerir com números.</p><div class="fact"><div class="metric">25%</div><div class="metric-l">tem bom nível de literacia financeira</div></div></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-users"/></svg></span><h3 class="h-card">Mais capital social</h3><p>Um nome que se constrói de forma justa e visível. Leva para o digital a confiança da kixikila e transforma reputação em acesso a crédito.</p><div class="fact"><div class="metric">3 níveis</div><div class="metric-l">Entrada, Confiança, Pleno</div></div></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-eye"/></svg></span><h3 class="h-card">Melhor perceção do Governo</h3><p>Resultados visíveis nos mercados: mais crédito legal, menos agiotas, famílias a poupar. A ENIF passa a ser uma experiência do dia a dia.</p><div class="fact"><div class="metric">9</div><div class="metric-l">entidades de crédito ilegal sinalizadas pelo BNA em agosto de 2026</div></div></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-landmark"/></svg></span><h3 class="h-card">Mais apoio às políticas públicas</h3><p>Uma iniciativa concreta e mensurável, com indicadores agregados e anónimos para orientar políticas de inclusão, emprego e formalização.</p><div class="fact"><div class="metric">ENIF</div><div class="metric-l">próxima etapa: pagamentos digitais no crédito</div></div></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-sun"/></svg></span><h3 class="h-card">A conjuntura ajuda</h3><p>A inflação abaixo de 9% e a taxa BNA de 14% abrem uma janela para crédito barato e poupança que rende. A rede KWiK mais do que duplicou em 2025.</p><div class="fact"><div class="metric">8,16%</div><div class="metric-l">inflação homóloga, outubro de 2026</div></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contributo" aria-labelledby="ctb-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Contributo para as metas</span>
+        <h2 class="h-sec" id="ctb-h">Quanto pode o Kumbu24 aproximar Angola da meta de 36%</h2>
+        <p class="lead">Escolha o número de novos clientes bancarizados e a poupança média. O cálculo usa os números oficiais da ENIF.</p>
+      </div>
+      <div class="calc">
+        <div class="panel-box">
+          <div class="ctl"><label class="ctl-top" for="gc-n"><span>Novos clientes com BI e conta</span><output id="o-gc-n"></output></label><input type="range" id="gc-n" min="10000" max="1000000" step="10000" value="200000"></div>
+          <div class="ctl"><label class="ctl-top" for="gc-s"><span>Poupança média por cliente e mês</span><output id="o-gc-s"></output></label><input type="range" id="gc-s" min="5000" max="60000" step="5000" value="20000"></div>
+          <div class="contrib">
+            <span class="k">Caminho de 32% para 36% de bancarização</span>
+            <div class="ctrack" role="img" id="ctrack" aria-label="Contributo do Kumbu24 para a meta de bancarização"><div class="cfill" id="cfill"></div></div>
+            <div class="cscale"><span>32%</span><span>33%</span><span>34%</span><span>35%</span><span>36%</span></div>
+          </div>
+        </div>
+        <div class="results">
+          <div class="res"><span>Bancarização</span><b id="g-pp"></b></div>
+          <div class="res"><span>Do caminho até à meta</span><b id="g-share"></b></div>
+          <div class="res"><span>BI validados e em uso</span><b id="g-bi"></b></div>
+          <div class="res"><span>Poupança formal num ano</span><b id="g-sav" class="green"></b></div>
+        </div>
+      </div>
+      <p class="note">Base: 32% de bancarização correspondem a 5,7 milhões de pessoas, cerca de 178 000 por ponto percentual; a meta de 36% corresponde a cerca de 8 milhões (Governo de Angola via ANGOP, julho de 2026). Assume que os novos clientes não tinham conta. A poupança anual não desconta levantamentos.</p>
+    </div>
+  </section>
+
+  <section class="block" id="degraus" aria-labelledby="deg-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Formalização</span>
+        <h2 class="h-sec" id="deg-h">Do mercado à economia formal, um degrau de cada vez</h2>
+        <p class="lead">Cada degrau é um resultado que o Governo pode medir. O Kumbu24 leva o vendedor do primeiro ao último sem lhe pedir o que ele ainda não tem.</p>
+      </div>
+      <div class="ladder" role="list">
+        <div class="rung" role="listitem" style="--i:0"><div class="bar"><span class="n">1</span><b>Vendedor informal</b></div><span class="gov">Ponto de partida: fora do sistema</span></div>
+        <div class="rung" role="listitem" style="--i:1"><div class="bar"><span class="n">2</span><b>BI validado</b></div><span class="gov">Identificação civil</span></div>
+        <div class="rung" role="listitem" style="--i:2"><div class="bar"><span class="n">3</span><b>Conta bancária</b></div><span class="gov">Meta de bancarização</span></div>
+        <div class="rung" role="listitem" style="--i:3"><div class="bar"><span class="n">4</span><b>Poupança no Cofre</b></div><span class="gov">Poupança formal das famílias</span></div>
+        <div class="rung" role="listitem" style="--i:4"><div class="bar"><span class="n">5</span><b>Historial na CIRC</b></div><span class="gov">Crédito com base em dados</span></div>
+        <div class="rung" role="listitem" style="--i:5"><div class="bar"><span class="n">6</span><b>Crédito maior e PME</b></div><span class="gov">Investimento e emprego</span></div>
+        <div class="rung" role="listitem" style="--i:6"><div class="bar"><span class="n">7</span><b>NIF em uso, atividade formal</b></div><span class="gov">Base fiscal e formalização</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="ask-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Como o Governo pode acelerar</span>
+        <h2 class="h-sec" id="ask-h">Seis apoios de baixo custo com efeito direto nas metas</h2>
+      </div>
+      <div class="grid-3">
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-id"/></svg></span><h3 class="h-card">Postos de BI nos mercados</h3><p>Campanhas conjuntas de emissão de BI nos mercados, com registo no Kumbu24 no mesmo dia.</p></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-landmark"/></svg></span><h3 class="h-card">Projeto-piloto da ENIF</h3><p>Reconhecimento formal do Kumbu24 como piloto da estratégia, com acompanhamento dos indicadores.</p></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-receipt"/></svg></span><h3 class="h-card">Orientação do BNA para o crédito diário</h3><p>Clareza sobre o regime aplicável, a FTI e a TAEG em prazos de um dia.</p></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-book"/></svg></span><h3 class="h-card">Literacia por SMS e rádio</h3><p>Conteúdos curtos em português e línguas nacionais, ligados ao uso real do produto.</p></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-data"/></svg></span><h3 class="h-card">Indicadores agregados e anónimos</h3><p>Partilha regular de dados de inclusão, poupança e crédito por província, para orientar políticas.</p></article>
+        <article class="card"><span class="ico"><svg class="i"><use href="#i-shield"/></svg></span><h3 class="h-card">Alternativas legais nos alertas</h3><p>Nos alertas sobre crédito ilegal, lembrar que existe crédito autorizado, barato e transparente.</p></article>
+      </div>
+    </div>
+  </section>
+</section>
+</main>
+
+<footer>
+  <div class="pano" aria-hidden="true"></div>
+  <div class="wrap foot">
+    <span class="k">Fontes</span>
+    <ul class="sources">
+      <li><a href="https://fr.allafrica.com/stories/202607100361.html" target="_blank" rel="noopener">ANGOP via AllAfrica: nova etapa da ENIF, inclusão e bancarização (9 jul 2026)</a></li>
+      <li><a href="https://expansao.co.ao/angola/detalhe/falta-de-bi-baixa-escolaridade-e-alta-informalidade-bloqueiam-avanco-da-inclusao-financeira-64891.html" target="_blank" rel="noopener">Expansão: falta de BI e informalidade travam a inclusão (15 abr 2025)</a></li>
+      <li><a href="https://www.verangola.net/va/pt/042025/Economia/44019/Baixo-nível-de-literacia-financeira-atinge-51-por-cento-da-população.htm" target="_blank" rel="noopener">VerAngola: literacia financeira (8 abr 2025)</a></li>
+      <li><a href="https://www.verangola.net/va/pt/012026/Comercio/47576/Pagamento-instantâneo-KWiK-regista-crescimento-superior-a-100-por-cento-em-2025.htm" target="_blank" rel="noopener">VerAngola: KWiK cresce mais de 100% em 2025 (30 jan 2026)</a></li>
+      <li><a href="http://expansao.co.ao/empresas/detalhe/bna-emite-alerta-sobre-nove-entidades-de-credito-ilegal-74241.html" target="_blank" rel="noopener">Expansão: BNA alerta para nove entidades de crédito ilegal (28 ago 2026)</a></li>
+      <li><a href="https://expansao.co.ao/economia/detalhe/inflacao-homologa-volta-a-descer-e-fixa-se-em-apenas-816-em-outubro-76066.html" target="_blank" rel="noopener">Expansão: inflação de 8,16% em outubro (13 nov 2026)</a></li>
+      <li><a href="https://www.verangola.net/va/pt/112026/BancaSeguros/50806/BNA-reduz-taxa-de-referência-em-075-pontos-percentuais-para-14-por-cento.htm" target="_blank" rel="noopener">VerAngola: taxa BNA de 14% (nov 2026)</a></li>
+      <li><a href="https://www.bfa.ao/media/8625/bfa_relatorio-de-disciplina-de-mercado-2025.pdf" target="_blank" rel="noopener">BFA: Disciplina de Mercado 2025, estrutura acionista</a></li>
+      <li><a href="https://www.bfa.ao/media/8470/folheto-digital_bfa-tecla.pdf" target="_blank" rel="noopener">BFA: folheto BFA Tecla *419# (mar 2026)</a></li>
+      <li><a href="https://lex.ao/docs/banco-nacional-de-angola/2016/aviso-n-o-14-16-de-07-de-setembro/" target="_blank" rel="noopener">BNA: Aviso n.º 14/16, deveres de informação no crédito</a></li>
+      <li><a href="https://lex.ao/docs/banco-nacional-de-angola/2017/aviso-n-o-5-17-de-10-de-julho/" target="_blank" rel="noopener">BNA: Aviso n.º 5/17, cartões e subsistema Multicaixa</a></li>
+    </ul>
+    <p class="disclaimer">Protótipo conceptual para discussão de um piloto com o BFA. Não é uma oferta comercial nem aconselhamento jurídico. Nomes de API, taxas, limites, níveis e calendário são ilustrativos e serão calibrados no piloto. A leitura regulamentar deve ser confirmada pelos serviços jurídicos do BFA.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s);};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+var nf=function(n){return Math.round(n).toLocaleString('pt-PT');};
+var kz=function(n){return 'Kz '+nf(n);};
+var dec=function(x,d){return x.toFixed(d===undefined?1:d).replace('.',',');};
+var pct=function(x,d){var v=x*100;if(d===undefined)d=(Math.abs(v-Math.round(v))<0.05)?0:1;return dec(v,d)+'%';};
+function big(n){var a=Math.abs(n);var f=function(x){return dec(x,x>=100?0:1);};if(a>=1e9)return 'Kz '+f(n/1e9)+' mil milhões';if(a>=1e6){var v=n/1e6;return 'Kz '+f(v)+(v>=2?' milhões':' milhão');}return kz(n);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function plain(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'');}
+var RM=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+var ic=function(id){return '<svg class="i" aria-hidden="true"><use href="#i-'+id+'"/></svg>';};
+
+/* ---------- Tabs ---------- */
+var TABS=['cliente','banco','governo'];
+function showTab(id,focus){
+  if(TABS.indexOf(id)<0)id='cliente';
+  $$('[role="tab"]').forEach(function(t){var on=t.getAttribute('data-tab')===id;t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;if(on&&focus)t.focus();});
+  $$('.panel').forEach(function(p){p.hidden=(p.id!=='tab-'+id);});
+  document.body.setAttribute('data-tab',id);
+}
+function go(id,focus){try{history.replaceState(null,'','#'+id);}catch(e){}showTab(id,focus);}
+$$('[role="tab"]').forEach(function(t){
+  t.addEventListener('click',function(){go(t.getAttribute('data-tab'));window.scrollTo({top:0,behavior:RM?'auto':'smooth'});});
+  t.addEventListener('keydown',function(e){
+    if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+    e.preventDefault();
+    var i=TABS.indexOf(t.getAttribute('data-tab'));
+    go(TABS[(i+(e.key==='ArrowRight'?1:TABS.length-1))%TABS.length],true);
+  });
+});
+window.addEventListener('hashchange',function(){var h=location.hash.slice(1);if(TABS.indexOf(h)>=0)showTab(h);});
+(function(){var h=location.hash.slice(1);showTab(TABS.indexOf(h)>=0?h:'cliente');})();
+
+/* ---------- Day simulator ---------- */
+var LV={
+  entrada:{name:'Entrada',limit:30000,rate:0.245,cativo:0.20,cofre0:10000,days:'7 de 10 dias para Confiança',prog:0.7},
+  confianca:{name:'Confiança',limit:60000,rate:0.21,cativo:0.10,cofre0:45000,days:'18 de 25 dias para Pleno',prog:0.72},
+  pleno:{name:'Pleno',limit:90000,rate:0.18,cativo:0.05,cofre0:120000,days:'Nível máximo atingido',prog:1}
+};
+var S={lv:'confianca',amount:50000,sales:120000,cofre:0.10,bolso:0.05,weak:false,step:0,mode:'app',timer:null};
+
+function calc(){
+  var L=LV[S.lv];var amount=Math.min(S.amount,L.limit);
+  var interest=Math.max(1,Math.round(amount*L.rate/365));
+  var taeg=Math.pow(1+L.rate/365,365)-1;
+  var sales=S.weak?Math.round(amount*0.9/500)*500:S.sales;
+  var cofreT=Math.round(sales*S.cofre),bolsoT=Math.round(sales*S.bolso),biz=sales-cofreT-bolsoT;
+  var cativo=Math.round(amount*L.cativo),repay=amount+interest;
+  var fromSales,fromCofre,left;
+  if(biz>=repay){fromSales=repay;fromCofre=0;left=biz-repay;}else{fromSales=biz;fromCofre=repay-biz;left=0;}
+  var stock=Math.round(amount*0.96/500)*500;
+  return {L:L,amount:amount,interest:interest,taeg:taeg,sales:sales,cofreT:cofreT,bolsoT:bolsoT,biz:biz,cativo:cativo,repay:repay,fromSales:fromSales,fromCofre:fromCofre,left:left,cofreEnd:L.cofre0+cofreT-fromCofre,stock:stock};
+}
+function steps(c){
+  var weak=c.fromCofre>0;
+  return [
+    {t:'07:00',h:'Pede o kumbu',d:'Pede '+kz(c.amount)+' no telemóvel e vê logo o custo: '+kz(c.interest)+' de juro, TAEG '+pct(c.taeg)+'.'},
+    {t:'07:01',h:'Dinheiro na conta',d:kz(c.amount)+' entram na conta. '+kz(c.cativo)+' do Cofre ficam a garantir o dia.'},
+    {t:'08:00',h:'Compra o stock',d:'Paga '+kz(c.stock)+' ao grossista e abre a banca às 09:00.'},
+    {t:'09:00-17:00',h:'Vende e poupa',d:'Vendas de '+kz(c.sales)+': '+kz(c.cofreT)+' vão para o Cofre e '+kz(c.bolsoT)+' para o Bolso.'},
+    {t:'18:00',h:'Kumbu pago sozinho',d:weak?('As vendas pagaram '+kz(c.fromSales)+' e o Cofre cobriu '+kz(c.fromCofre)+'. O kumbu fica pago.'):(kz(c.repay)+' pagos com as vendas do dia. Ficam '+kz(c.left)+' no negócio.')},
+    {t:'18:01',h:'Mais um dia no seu nome',d:weak?('Garantia usada; Cofre com '+kz(c.cofreEnd)+'. Amanhã o limite ajusta-se às vendas.'):('Garantia libertada e Cofre com '+kz(c.cofreEnd)+'. Mais um dia pago para o próximo nível.')}
+  ];
+}
+function row(a,b){return '<div><span>'+a+'</span><b class="num">'+b+'</b></div>';}
+function appScreen(i,c){
+  var L=c.L,b='';
+  var head='<div class="scr-head"><span class="scr-logo">kumbu<i>24</i></span><span class="scr-chip">'+L.name+'</span></div>';
+  if(i===0){b='<div class="scr-title">Quanto precisa hoje?</div><div class="scr-amt num">'+kz(c.amount)+'</div><div class="scr-sub">Limite de hoje: '+kz(L.limit)+'</div><div class="scr-rows">'+row('Paga','hoje, 18:00')+row('Juro do dia',kz(c.interest))+row('TAEG',pct(c.taeg))+row('Garantia do Cofre',kz(c.cativo))+'</div><div class="scr-btn">Confirmar com OTP</div>';}
+  else if(i===1){b='<div class="scr-ok">'+ic('check')+'</div><div class="scr-title">'+kz(c.amount)+' na sua conta</div><div class="scr-sub">Recebido às 07:01</div><div class="scr-rows">'+row('Garantia ativa',kz(c.cativo))+row('Libertada','quando pagar')+row('Pagamento','hoje, 18:00')+'</div><div class="scr-note">O resto do Cofre continua livre para levantar.</div>';}
+  else if(i===2){b='<div class="scr-title">Stock comprado</div><div class="scr-sub">Pagamento ao grossista, 08:00</div><div class="scr-amt num">−'+kz(c.stock)+'</div><div class="scr-rows">'+row('Saldo da conta',kz(c.amount-c.stock))+row('Banca abre','09:00')+row('Kumbu a pagar',kz(c.repay))+'</div><div class="scr-note">Boas vendas, Dona Rosa.</div>';}
+  else if(i===3){
+    var bp=c.biz/c.sales*100,cp=c.cofreT/c.sales*100,pp=c.bolsoT/c.sales*100;
+    var r1=Math.round(c.sales*0.03/50)*50,r2=Math.round(c.sales*0.1/50)*50,r3=Math.round(c.sales*0.02/50)*50;
+    b='<div class="scr-title">Vendas de hoje</div><div class="scr-amt num">'+kz(c.sales)+'</div><div class="split" aria-hidden="true"><i class="b" style="width:'+bp+'%"></i><i class="c" style="width:'+cp+'%"></i><i class="p" style="width:'+pp+'%"></i></div><div class="legend"><span style="--c:var(--yellow)">Negócio '+kz(c.biz)+'</span><span style="--c:var(--green)">Cofre '+kz(c.cofreT)+'</span><span style="--c:var(--blue)">Bolso '+kz(c.bolsoT)+'</span></div><div class="scr-sub">Últimos recebimentos</div><div class="rcpts"><div><span>KWiK</span><b class="num">+'+kz(r1)+'</b></div><div><span>Multicaixa</span><b class="num">+'+kz(r2)+'</b></div><div><span>Unitel Money</span><b class="num">+'+kz(r3)+'</b></div></div>';
+  }
+  else if(i===4){var w=c.fromCofre>0;b='<div class="scr-ok'+(w?' warn':'')+'">'+ic('check')+'</div><div class="scr-title">Kumbu pago às 18:00</div><div class="scr-amt num">'+kz(c.repay)+'</div><div class="scr-rows">'+row('Das vendas',kz(c.fromSales))+row('Do Cofre',kz(c.fromCofre))+row('Fica no negócio',kz(c.left))+'</div><div class="scr-note">'+(w?'Dia fraco: o Cofre garantiu o pagamento.':'Pago sem sair da banca.')+'</div>';}
+  else{b='<div class="scr-title">O seu dia</div><div class="scr-tiles"><div><span>Cofre</span><b class="num green">'+kz(c.cofreEnd)+'</b></div><div><span>Bolso hoje</span><b class="num">'+kz(c.bolsoT)+'</b></div></div><div class="lvl"><div class="scr-sub">Nível '+L.name+': '+L.days+'</div><div class="lvl-bar"><i style="width:'+(L.prog*100)+'%"></i></div></div><div class="scr-rows">'+row('Amanhã pode pedir até',kz(L.limit))+row('Juro anual do nível',pct(L.rate))+'</div><div class="scr-btn">Pedir kumbu amanhã</div>';}
+  return head+'<div class="scr-body">'+b+'</div>';
+}
+function ussdScreen(i,c){
+  var L=c.L;
+  var t=[
+    'Kumbu24\nPedir: '+kz(c.amount)+'\nPaga hoje as 18:00\nJuro: '+kz(c.interest)+'\nTAEG: '+pct(c.taeg)+'\nGarantia Cofre: '+kz(c.cativo)+'\n\n1 Confirmar\n2 Mudar valor\n0 Sair',
+    'Kumbu24\n'+kz(c.amount)+' creditados\nna sua conta.\nGarantia ativa:\n'+kz(c.cativo)+'\n\n00 Menu',
+    'Kumbu24\nSaldo conta: '+kz(c.amount-c.stock)+'\nKumbu a pagar: '+kz(c.repay)+'\n\n1 Ver vendas\n2 Ver Cofre\n3 Pagar ja\n00 Menu',
+    'SMS Kumbu24\nVendas hoje: '+kz(c.sales)+'\nCofre +'+kz(c.cofreT)+'\nBolso +'+kz(c.bolsoT),
+    'SMS Kumbu24\nKumbu pago: '+kz(c.repay)+'.\n'+(c.fromCofre>0?'O Cofre cobriu '+kz(c.fromCofre)+'.':'Garantia libertada.')+'\nObrigado!',
+    'Kumbu24\nCofre: '+kz(c.cofreEnd)+'\nNivel: '+L.name+'\n'+L.days+'\n\n1 Pedir kumbu\n2 Ver Cofre\n00 Menu'
+  ][i];
+  var hours=['07:00','07:01','08:00','15:42','18:00','18:01'];
+  return '<div class="ussd-bar"><span>Unitel</span><span>'+hours[i]+'</span></div><div class="ussd">'+esc(plain(t))+'</div>';
+}
+function tile(a,b,cls){return '<div class="tile'+(cls?' '+cls:'')+'"><span>'+a+'</span><b>'+b+'</b></div>';}
+function renderDay(){
+  var L=LV[S.lv];var amt=$('#in-amount');
+  amt.max=String(L.limit);if(+amt.value>L.limit)amt.value=String(L.limit);S.amount=+amt.value;
+  var c=calc(),st=steps(c);
+  $('#out-amount').textContent=kz(S.amount);
+  $('#out-sales').textContent=S.weak?'fraco · '+kz(c.sales):kz(S.sales);
+  $('#out-cofre').textContent=Math.round(S.cofre*100)+'%';
+  $('#out-bolso').textContent=Math.round(S.bolso*100)+'%';
+  $('#lv-hint').textContent='Limite '+kz(L.limit)+' · juro '+pct(L.rate)+' ao ano · garantia '+pct(L.cativo,0)+' do kumbu';
+  $('#steps').innerHTML=st.map(function(s,i){return '<li class="'+(i===S.step?'on':'')+(i<S.step?' done':'')+'"><button type="button" data-i="'+i+'" aria-current="'+(i===S.step?'step':'false')+'"><span class="t">'+s.t+'</span><span class="h">'+s.h+'</span><span class="d">'+s.d+'</span></button></li>';}).join('');
+  $('#screen').innerHTML=S.mode==='app'?appScreen(S.step,c):ussdScreen(S.step,c);
+  $('#day-tiles').innerHTML=tile('Juro do dia',kz(c.interest))+tile('Para o Cofre',kz(c.cofreT),'cofre')+tile('Para o Bolso',kz(c.bolsoT))+(c.fromCofre>0?tile('Coberto pelo Cofre',kz(c.fromCofre)):tile('Fica no negócio',kz(c.left)));
+}
+function stopDay(){if(S.timer){clearInterval(S.timer);S.timer=null;}$('#play').innerHTML='&#9654; Ver o dia';}
+$('#play').addEventListener('click',function(){
+  if(S.timer){stopDay();return;}
+  if(S.step>=5)S.step=0;
+  renderDay();
+  $('#play').innerHTML='&#10074;&#10074; Pausar';
+  S.timer=setInterval(function(){if(S.step>=5){stopDay();return;}S.step++;renderDay();if(S.step>=5)stopDay();},1700);
+});
+$('#reset').addEventListener('click',function(){stopDay();S.step=0;renderDay();});
+$('#steps').addEventListener('click',function(e){var b=e.target.closest('button[data-i]');if(!b)return;stopDay();S.step=+b.getAttribute('data-i');renderDay();});
+$$('#lv-seg button').forEach(function(b){b.addEventListener('click',function(){S.lv=b.getAttribute('data-lv');$$('#lv-seg button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});renderDay();});});
+$$('.mode button').forEach(function(b){b.addEventListener('click',function(){S.mode=b.getAttribute('data-mode');$$('.mode button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});renderDay();});});
+$('#in-amount').addEventListener('input',function(e){S.amount=+e.target.value;renderDay();});
+$('#in-sales').addEventListener('input',function(e){S.sales=+e.target.value;renderDay();renderMonth();});
+$('#in-cofre').addEventListener('input',function(e){S.cofre=e.target.value/100;renderDay();renderMonth();});
+$('#in-bolso').addEventListener('input',function(e){S.bolso=e.target.value/100;renderDay();});
+$('#in-weak').addEventListener('change',function(e){S.weak=e.target.checked;renderDay();});
+
+/* ---------- Month simulator ---------- */
+function month(){
+  var pat=[1,0.85,0.95,1.05,1.2,1.35,0.6];
+  var lv='entrada',cofre=0,paid=0,interest=0,pts=[],ups=[];
+  for(var d=1;d<=30;d++){
+    var L=LV[lv];
+    cofre+=S.sales*pat[(d-1)%7]*S.cofre;interest+=L.limit*L.rate/365;paid++;
+    pts.push({d:d,v:cofre,lv:lv});
+    if(lv==='entrada'&&paid>=10&&cofre>=20000){lv='confianca';ups.push(d);}
+    else if(lv==='confianca'&&paid>=25&&cofre>=60000){lv='pleno';ups.push(d);}
+  }
+  return {pts:pts,ups:ups,interest:interest,cofre:cofre,lv:lv};
+}
+function niceMax(v){if(v<=0)return 1;var p=Math.pow(10,Math.floor(Math.log10(v)));var n=v/p;var m=n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10;return m*p;}
+function short(v){if(v>=1e6)return dec(v/1e6)+' M';if(v>=1000)return nf(v/1000)+' mil';return '0';}
+function renderMonth(){
+  var m=month(),W=1000,H=340,l=84,r=28,t=36,b=42,iw=W-l-r,ih=H-t-b;
+  var ymax=niceMax(m.cofre*1.1),step=iw/29,half=step/2;
+  var X=function(d){return l+(d-1)*step;},Y=function(v){return t+(1-v/ymax)*ih;};
+  var s='';
+  var bands=[],cur=null;
+  m.pts.forEach(function(p){if(!cur||cur.lv!==p.lv){cur={lv:p.lv,a:p.d,b:p.d};bands.push(cur);}else cur.b=p.d;});
+  bands.forEach(function(bd,i){
+    var x0=Math.max(l,X(bd.a)-half),x1=Math.min(l+iw,X(bd.b)+half);
+    s+='<rect class="ch-band '+bd.lv+'" x="'+x0+'" y="'+t+'" width="'+(x1-x0)+'" height="'+ih+'"/>';
+    var L=LV[bd.lv];var label=L.name+' · '+pct(L.rate);
+    if(x1-x0<110)label=pct(L.rate);
+    s+='<text class="ch-band-t" x="'+(x0+6)+'" y="'+(t-10)+'">'+label+'</text>';
+    if(i>0)s+='<line class="ch-div" x1="'+x0+'" x2="'+x0+'" y1="'+(t-4)+'" y2="'+(t+ih)+'"/>';
+  });
+  for(var k=0;k<=4;k++){var v=ymax*k/4,y=Y(v);s+='<line class="ch-grid" x1="'+l+'" x2="'+(l+iw)+'" y1="'+y+'" y2="'+y+'"/><text class="ch-ax" x="'+(l-8)+'" y="'+(y+4)+'" text-anchor="end">'+(k===0?'Kz 0':'Kz '+short(v))+'</text>';}
+  [1,5,10,15,20,25,30].forEach(function(d){s+='<text class="ch-ax" x="'+X(d)+'" y="'+(t+ih+20)+'" text-anchor="middle">dia '+d+'</text>';});
+  var line=m.pts.map(function(p,i){return (i?'L':'M')+X(p.d).toFixed(1)+' '+Y(p.v).toFixed(1);}).join(' ');
+  s+='<path class="ch-area" d="M'+X(1)+' '+Y(0)+' '+line.replace(/^M/,'L')+' L'+X(30)+' '+Y(0)+' Z"/>';
+  s+='<path class="ch-line" d="'+line+'"/>';
+  var lp=m.pts[29];
+  s+='<circle class="ch-dot" cx="'+X(30)+'" cy="'+Y(lp.v)+'" r="5"/>';
+  s+='<text class="ch-end" x="'+(X(30)-10)+'" y="'+(Y(lp.v)-12)+'" text-anchor="end">Cofre: '+kz(lp.v)+'</text>';
+  $('#month-chart').innerHTML=s;
+  var F=LV[m.lv];
+  $('#month-tiles').innerHTML=tile('Cofre ao fim de 30 dias',kz(m.cofre),'cofre')+tile('Juro pago no mês',kz(m.interest))+tile('Nível e limite no dia 31',F.name+' · '+kz(F.limit))+tile('Juro anual: início e fim',pct(LV.entrada.rate)+' › '+pct(F.rate));
+}
+
+/* ---------- Architecture explorer ---------- */
+var BL=[
+ {id:'app',ly:'exp',n:'BFA App',w:'Pedido, simulação com FTI e TAEG, aceitação e gestão do Cofre e do Bolso.',api:['POST /kumbu/v1/pedidos','GET /kumbu/v1/clientes/{id}/cofre'],r:'Usa as mesmas APIs que o USSD: uma regra, dois canais.',p:'1',o:'BFA (canal) e implementador (APIs)'},
+ {id:'ussd',ly:'exp',n:'BFA Tecla *419#',w:'Pedido e reembolso em qualquer telemóvel, sem dados móveis.',api:['POST /kumbu/v1/ussd/sessoes'],r:'Hoje só para números Unitel; FTI completa enviada por SMS.',p:'1',o:'BFA e Unitel'},
+ {id:'agentes',ly:'exp',n:'Rede de agentes',later:1,w:'Registo assistido com BI, entrada e saída de numerário nos mercados.',api:['POST /kumbu/v1/agentes/registos'],r:'O agente regista; nunca decide o crédito.',p:'2',o:'BFA'},
+ {id:'consola',ly:'exp',n:'Consola interna',w:'Risco, operações, reclamações e acompanhamento do piloto.',api:['GET /kumbu/v1/backoffice/casos'],r:'Acesso por perfis e trilho de auditoria.',p:'1',o:'BFA'},
+ {id:'kyc',ly:'proc',n:'Registo e KYC',w:'Verifica BI e NIF, abre ou associa a conta BFA e faz a triagem AML.',api:['POST /kyc/v1/verificacoes'],r:'BI obrigatório; contas sem identificação completa não têm crédito.',p:'1',o:'Implementador, com a política do BFA'},
+ {id:'consent',ly:'proc',n:'Consentimentos',w:'Regista autorizações de dados, débito automático e regras do Cofre.',api:['POST /consentimentos/v1'],r:'Cada consentimento com finalidade, data e revogação.',p:'1',o:'Implementador, com o jurídico do BFA'},
+ {id:'score',ly:'proc',n:'Scoring alternativo',w:'Calcula o risco com vendas recebidas, histórico do Cofre e dados de rede.',api:['POST /risco/v1/avaliacoes'],r:'Modelos versionados e validados pelo risco do BFA; consulta à CIRC (Aviso 14/16, art. 6.º).',p:'1',o:'BFA (modelo) e implementador (dados)'},
+ {id:'decisao',ly:'proc',n:'Decisão e contrato',w:'Define limite e taxa pelo nível; gera FTI, contrato e OTP.',api:['POST /credito/v1/propostas','POST /credito/v1/contratos'],r:'Limite em kwanzas até ao equivalente a USD 100; FTI e TAEG antes da aceitação.',p:'1',o:'BFA (parâmetros) e implementador'},
+ {id:'desembolso',ly:'proc',n:'Desembolso',w:'Credita a conta BFA de imediato.',api:['POST /credito/v1/desembolsos'],r:'Transferência interna ou KWiK, com confirmação imediata.',p:'1',o:'Implementador'},
+ {id:'cobranca',ly:'proc',n:'Cobrança',w:'Reembolso automático às 18:00 a partir das vendas recebidas.',api:['POST /credito/v1/reembolsos'],r:'Compensação sobre a parte cativa do Cofre só em incumprimento.',p:'1',o:'Implementador, com regras do BFA'},
+ {id:'cofre',ly:'proc',n:'Cofre e Bolso',accent:1,w:'Reparte cada venda entre negócio, Cofre e Bolso; gere a parte cativa e os níveis de reputação.',api:['POST /cofre/v1/reparticoes','POST /cofre/v1/cativos'],r:'Percentagens escolhidas pelo cliente; parte cativa libertada no reembolso.',p:'1',o:'BFA (produto) e implementador'},
+ {id:'aml',ly:'proc',n:'Reporte e AML',w:'Reporte ao BNA e à CIRC, monitorização de transações.',api:['POST /conformidade/v1/reportes'],r:'Alertas para revisão humana; relatórios automáticos.',p:'1',o:'BFA (conformidade)'},
+ {id:'grad',ly:'proc',n:'Graduação de crédito',later:1,w:'Propõe Crédito Pessoal ou crédito PME a quem chega ao nível Pleno.',api:['GET /credito/v1/clientes/{id}/elegibilidade'],r:'Regras de elegibilidade do BFA.',p:'3',o:'BFA'},
+ {id:'core',ly:'sys',n:'Core bancário BFA',w:'Contas, Cofre, cativos e contabilização dos empréstimos.',api:['core-bfa-sys-api'],r:'Integração sobre os serviços que o core já expõe, sem alterar o core.',p:'1',o:'BFA (TI) e implementador'},
+ {id:'emis',ly:'sys',n:'EMIS: Multicaixa e KWiK',w:'Vendas recebidas e histórico de pagamentos.',api:['emis-sys-api'],r:'Liquidação em kwanzas (Aviso 5/17).',p:'1',o:'BFA e EMIS'},
+ {id:'wallets',ly:'sys',n:'Unitel Money e carteiras',w:'Recebimento de vendas e distribuição a não clientes.',api:['carteiras-sys-api'],r:'A Unitel é parte relacionada: condições de mercado.',p:'1 e 2',o:'BFA e Unitel'},
+ {id:'ident',ly:'sys',n:'Identificação: BI e NIF',w:'Validação de identidade junto das fontes oficiais.',api:['identificacao-sys-api'],r:'Disponibilidade de API a confirmar na descoberta.',p:'1',o:'BFA'},
+ {id:'circ',ly:'sys',n:'CIRC do BNA',w:'Consulta e reporte de responsabilidades de crédito.',api:['circ-sys-api'],r:'Regras de reporte para micro-montantes a confirmar.',p:'1',o:'BFA'},
+ {id:'telco',ly:'sys',n:'Unitel: USSD, SMS e dados',w:'Sessões USSD, OTP, FTI por SMS e dados de rede com consentimento.',api:['unitel-sys-api'],r:'Unitel na fase 1; outras operadoras na fase 3.',p:'1 e 3',o:'BFA e Unitel'}
+];
+var LY={exp:['APIs de experiência','canais BFA'],proc:['APIs de processo','motor de crédito Kumbu24'],sys:['APIs de sistema','ligações aos sistemas']};
+var archSel='cofre';
+function renderArch(){
+  var keys=['exp','proc','sys'];
+  $('#layers').innerHTML=keys.map(function(k,i){
+    return '<div class="layer"><div class="layer-h"><b>'+LY[k][0]+'</b><span>'+LY[k][1]+'</span></div><div class="chips">'+BL.filter(function(x){return x.ly===k;}).map(function(x){return '<button type="button" class="chip'+(x.later?' later':'')+(x.accent?' accent':'')+'" data-id="'+x.id+'" aria-pressed="'+(x.id===archSel)+'">'+x.n+'</button>';}).join('')+'</div></div>'+(i<2?'<div class="down" aria-hidden="true">'+ic('down')+'</div>':'');
+  }).join('')+'<div class="down" aria-hidden="true">'+ic('down')+'</div><div class="band-blue">Carteira de crédito exclusivamente no balanço do BFA</div>';
+  var x=BL.filter(function(b){return b.id===archSel;})[0];
+  $('#arch-detail').innerHTML='<span class="k">'+LY[x.ly][0]+' · fase '+x.p+'</span><h3 class="h-card">'+x.n+'</h3><p>'+x.w+'</p><div><span class="k">APIs (nomes ilustrativos)</span><div>'+x.api.map(function(a){return '<code>'+esc(a)+'</code>';}).join('')+'</div></div><div><span class="k">Regra-chave</span><p>'+x.r+'</p></div><div><span class="k">Responsável</span><p>'+x.o+'</p></div>';
+}
+$('#layers').addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;archSel=b.getAttribute('data-id');renderArch();});
+
+/* ---------- Sequence diagram ---------- */
+var LANES=['Cliente','Canal: App ou USSD','Motor Kumbu24','Core BFA e CIRC','Redes: EMIS, Unitel'];
+var SEQ=[
+ {f:0,t:1,l:'Pede Kz 50 000',d:'O cliente escolhe o montante no BFA App ou no BFA Tecla *419#.'},
+ {f:1,t:2,l:'Pedido via API de experiência',d:'O canal envia o pedido ao motor; o canal não guarda regras de crédito.'},
+ {f:2,t:3,l:'Valida BI, conta e consentimentos',d:'Registo e KYC confirmam identidade e conta; sem BI não há crédito.'},
+ {f:2,t:3,l:'Consulta a CIRC',d:'Avaliação de solvabilidade, como exige o Aviso 14/16, art. 6.º.'},
+ {f:2,t:2,l:'Score, nível, limite e taxa',d:'O motor calcula o risco com vendas, Cofre e dados de rede; o nível define limite, taxa e parte cativa.'},
+ {f:2,t:1,l:'FTI, TAEG e custo total',d:'O cliente vê o custo total em kwanzas antes de aceitar (Aviso 14/16, art. 5.º e 7.º).'},
+ {f:0,t:1,l:'Aceita com OTP',d:'A aceitação fica registada com data, hora e versão do contrato.'},
+ {f:2,t:3,l:'Cativa Cofre e credita a conta',d:'Uma parte do Cofre fica cativa e o montante entra na conta BFA.'},
+ {f:4,t:2,l:'Vendas recebidas',d:'KWiK, Multicaixa e Unitel Money notificam cada recebimento ao longo do dia.'},
+ {f:2,t:3,l:'Reparte: negócio, Cofre, Bolso',d:'Cada venda é dividida segundo as percentagens escolhidas pelo cliente.'},
+ {f:2,t:3,l:'18:00: reembolso automático',d:'O motor debita o kumbu e o juro do dia na conta do negócio.'},
+ {f:2,t:3,l:'Liberta o cativo e reporta',d:'A garantia é libertada, a reputação sobe e a CIRC é atualizada.'}
+];
+var seqActive=-1,seqTimer=null;
+function renderSeq(){
+  var W=1000,x0=120,dx=190,top=86,rowH=38,H=top+SEQ.length*rowH+16;
+  var lx=function(i){return x0+i*dx;};
+  var s='<defs><marker id="sq-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="sq-mk"/></marker><marker id="sq-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="sq-mk2"/></marker></defs>';
+  LANES.forEach(function(n,i){
+    s+='<line class="life" x1="'+lx(i)+'" x2="'+lx(i)+'" y1="56" y2="'+(H-8)+'"/>';
+    s+='<rect class="lane-h" x="'+(lx(i)-80)+'" y="14" width="160" height="42" rx="10"/>';
+    s+='<text class="lane-t" x="'+lx(i)+'" y="40" text-anchor="middle">'+n+'</text>';
+  });
+  SEQ.forEach(function(st,i){
+    var y=top+i*rowH+14,cls='sq'+(seqActive<0?'':(i===seqActive?' on':' dim')),mk=i===seqActive?'url(#sq-b)':'url(#sq-a)';
+    s+='<g class="'+cls+'">';
+    s+='<circle class="sq-n" cx="24" cy="'+y+'" r="11"/><text class="sq-nt" x="24" y="'+(y+3.5)+'" text-anchor="middle">'+(i+1)+'</text>';
+    var lw=st.l.length*6.3+12,lxm,ly=y-8;
+    if(st.f===st.t){
+      var xa=lx(st.f);
+      s+='<path class="sq-line" d="M'+xa+' '+(y-7)+' h34 v14 h-30" marker-end="'+mk+'"/>';
+      lxm=xa+42+lw/2;
+      s+='<rect class="sq-bg" x="'+(xa+42)+'" y="'+(y-10)+'" width="'+lw+'" height="18" rx="4"/><text class="sq-l" x="'+(xa+48)+'" y="'+(y+3)+'">'+st.l+'</text>';
+    }else{
+      var a=lx(st.f),b=lx(st.t),dir=b>a?1:-1;
+      s+='<line class="sq-line" x1="'+(a+dir*4)+'" x2="'+(b-dir*5)+'" y1="'+y+'" y2="'+y+'" marker-end="'+mk+'"/>';
+      lxm=(a+b)/2;
+      s+='<rect class="sq-bg" x="'+(lxm-lw/2)+'" y="'+(ly-12)+'" width="'+lw+'" height="16" rx="4"/><text class="sq-l" x="'+lxm+'" y="'+ly+'" text-anchor="middle">'+st.l+'</text>';
+    }
+    s+='</g>';
+  });
+  var svg=$('#seq-svg');svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.innerHTML=s;
+  $('#seq-list').innerHTML=SEQ.map(function(st,i){return '<li class="'+(i===seqActive?'on':'')+(seqActive>=0&&i<seqActive?' done':'')+'"><button type="button" data-i="'+i+'"><span class="t">'+(i<9?'0':'')+(i+1)+'</span><span class="h">'+st.l+'</span><span class="d">'+st.d+'</span></button></li>';}).join('');
+}
+function stopSeq(){if(seqTimer){clearInterval(seqTimer);seqTimer=null;}$('#seq-play').innerHTML='&#9654; Reproduzir';}
+$('#seq-play').addEventListener('click',function(){
+  if(seqTimer){stopSeq();return;}
+  if(seqActive<0||seqActive>=SEQ.length-1)seqActive=0;
+  renderSeq();$('#seq-play').innerHTML='&#10074;&#10074; Pausar';
+  seqTimer=setInterval(function(){if(seqActive>=SEQ.length-1){stopSeq();return;}seqActive++;renderSeq();if(seqActive>=SEQ.length-1)stopSeq();},1400);
+});
+$('#seq-all').addEventListener('click',function(){stopSeq();seqActive=-1;renderSeq();});
+$('#seq-list').addEventListener('click',function(e){var b=e.target.closest('button[data-i]');if(!b)return;stopSeq();seqActive=+b.getAttribute('data-i');renderSeq();});
+
+/* ---------- Pilot calculator ---------- */
+function v(id){return +$('#'+id).value;}
+function renderPilot(){
+  var cl=v('pc-clients'),am=v('pc-amount'),dy=v('pc-days'),rt=v('pc-rate'),sa=v('pc-sales'),cf=v('pc-cofre'),rt2=v('pc-ret');
+  $('#o-pc-clients').textContent=nf(cl);$('#o-pc-amount').textContent=kz(am);$('#o-pc-days').textContent=dy+' dias';
+  $('#o-pc-rate').textContent=dec(rt)+'%';$('#o-pc-sales').textContent=kz(sa);$('#o-pc-cofre').textContent=cf+'%';$('#o-pc-ret').textContent=rt2+'%';
+  var credit=cl*am*dy,interest=credit*(rt/100)/365,dep=cl*sa*26*(cf/100),bal=dep*6*(rt2/100);
+  $('#r-credit').textContent=big(credit);$('#r-interest').textContent=big(interest);$('#r-dep').textContent=big(dep);$('#r-bal').textContent=big(bal);
+  var mx=Math.max(interest,dep);
+  $('#b-int').style.width=(interest/mx*100)+'%';$('#b-dep').style.width=(dep/mx*100)+'%';
+  $('#b-int-v').textContent=big(interest);$('#b-dep-v').textContent=big(dep);
+}
+['pc-clients','pc-amount','pc-days','pc-rate','pc-sales','pc-cofre','pc-ret'].forEach(function(id){$('#'+id).addEventListener('input',renderPilot);});
+
+/* ---------- Government calculator ---------- */
+var PER_PP=5.7e6/32,GAP=8.0e6-5.7e6;
+function renderGov(){
+  var n=v('gc-n'),sv=v('gc-s');
+  $('#o-gc-n').textContent=nf(n);$('#o-gc-s').textContent=kz(sv);
+  var pp=n/PER_PP,share=n/GAP;
+  $('#g-pp').textContent='+'+dec(pp,2)+' pp';
+  $('#g-share').textContent=pct(Math.min(share,1),0);
+  $('#g-bi').textContent=nf(n);
+  $('#g-sav').textContent=big(n*sv*12);
+  $('#cfill').style.width=Math.min(pp/4,1)*100+'%';
+  $('#ctrack').setAttribute('aria-label','O Kumbu24 acrescenta '+dec(pp,2)+' pontos percentuais, '+pct(Math.min(share,1),0)+' do caminho até 36%');
+}
+['gc-n','gc-s'].forEach(function(id){$('#'+id).addEventListener('input',renderGov);});
+
+renderDay();renderMonth();renderArch();renderSeq();renderPilot();renderGov();
+})();
+</script>
+</body>
+</html>
